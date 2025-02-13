@@ -1,17 +1,30 @@
-# Ignore the data folder
-data/
-
-# Ignore Python bytecode files
+# Python related
 __pycache__/
 *.py[cod]
+*.pyc
 
-# Ignore virtual environments
+# Virtual environments
 venv/
 .env/
 
-# Ignore Jupyter notebook checkpoints
+# Data and cache directories
+data/
+cache/
+data/raw/
+data/processed/
+data/results/
+
+# Data files
+*.h5ad
+*.csv
+*.tar
+
+# Jupyter related
 .ipynb_checkpoints/
 
-# Ignore system files
+# System files
 .DS_Store
 *.log
+
+# SLURM files
+slurm-*.out
