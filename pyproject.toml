@@ -1,0 +1,25 @@
+[tool.poetry]
+name = "DL-unmix"
+version = "0.1.0"
+description = ""
+authors = ["Your Name <you@example.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.9"
+beautifulsoup4 = "^4.11"
+h5py = "^3.8"
+numpy = "^1.23"
+pandas = "^1.5"
+requests = "^2.32"
+rpy2 = "^3.5"
+scipy = "^1.9"
+tqdm = "^4.67"
+torch = "^2.4.1"
+gpytorch = "^1.9.1"
+seaborn = "^0.12"
+matplotlib = "^3.0"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"

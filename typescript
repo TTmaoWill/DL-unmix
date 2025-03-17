@@ -1,0 +1,1035 @@
+Script started on 2025-02-23 01:28:35-05:00
+Restoring modules to user's default, for system: "longleaf"
+^C/usr/bin/lua: interrupted!
+stack traceback:
+	[C]: in ?
+	[C]: in function 'require'
+	/nas/longleaf/apps/lmod/lmod/libexec/MasterControl.lua:208: in function 'MasterControl.build'
+	/nas/longleaf/apps/lmod/lmod/libexec/computeHashSum:129: in function 'main'
+	/nas/longleaf/apps/lmod/lmod/libexec/computeHashSum:213: in main chunk
+	[C]: in ?
+/usr/bin/lua: /nas/longleaf/apps/lmod/lmod/libexec/../tools/capture.lua:60: interrupted!
+stack traceback:
+	[C]: in method 'read'
+	/nas/longleaf/apps/lmod/lmod/libexec/../tools/capture.lua:60: in function 'capture'
+	/nas/longleaf/apps/lmod/lmod/libexec/MT.lua:1691: in function 'MT.setHashSum'
+	/nas/longleaf/apps/lmod/lmod/libexec/MT.lua:959: in function 'MT.getMTfromFile'
+	/nas/longleaf/apps/lmod/lmod/libexec/cmdfuncs.lua:590: in function 'Restore'
+	/nas/longleaf/apps/lmod/lmod/libexec/lmod:650: in function 'main'
+	/nas/longleaf/apps/lmod/lmod/libexec/lmod:695: in main chunk
+	[C]: in ?
+]0;chenweit@longleaf-login2:/proj/yunligrp/users/chenweit/DL-unmix[chenweit@longleaf-login2 DL-unmix]$ script [K[K[K[K[K[K[Kbash script/run_tasic_yao.sh --method=gan
+script/run_tasic_yao.sh: line 29: syntax error: unexpected end of file
+]0;chenweit@longleaf-login2:/proj/yunligrp/users/chenweit/DL-unmix[chenweit@longleaf-login2 DL-unmix]$ bash script/run_tasic_yao.sh --method=gan
+script/run_tasic_yao.sh: line 29: syntax error near unexpected token `done'
+script/run_tasic_yao.sh: line 29: `done'
+]0;chenweit@longleaf-login2:/proj/yunligrp/users/chenweit/DL-unmix[chenweit@longleaf-login2 DL-unmix]$ bash script/run_tasic_yao.sh --method=gan
+script/run_tasic_yao.sh: line 29: syntax error near unexpected token `;'
+script/run_tasic_yao.sh: line 29: `else; then'
+]0;chenweit@longleaf-login2:/proj/yunligrp/users/chenweit/DL-unmix[chenweit@longleaf-login2 DL-unmix]$ bash script/run_tasic_yao.sh --method=gan
+script/run_tasic_yao.sh: line 17: method: command not found
+script/run_tasic_yao.sh: line 23: method: command not found
+Error: --method argument not valid
+]0;chenweit@longleaf-login2:/proj/yunligrp/users/chenweit/DL-unmix[chenweit@longleaf-login2 DL-unmix]$ bash script/run_tasic_yao.sh --method=gan
+222
+]0;chenweit@longleaf-login2:/proj/yunligrp/users/chenweit/DL-unmix[chenweit@longleaf-login2 DL-unmix]$ bash script/run_tasic_yao.sh --method=gan[K[K[Kbmind
+111
+]0;chenweit@longleaf-login2:/proj/yunligrp/users/chenweit/DL-unmix[chenweit@longleaf-login2 DL-unmix]$ bash script/run_tasic_yao.sh --method=bmind[K[K[K[K[Kas
+script/run_tasic_yao.sh: line 18: syntax error near unexpected token `as'
+script/run_tasic_yao.sh: line 18: `    bmind, as)'
+]0;chenweit@longleaf-login2:/proj/yunligrp/users/chenweit/DL-unmix[chenweit@longleaf-login2 DL-unmix]$ bash script/run_tasic_yao.sh --method=asd
+Error: --method argument not valid
+]0;chenweit@longleaf-login2:/proj/yunligrp/users/chenweit/DL-unmix[chenweit@longleaf-login2 DL-unmix]$ bash script/run_tasic_yao.sh --method=asd
+script/run_tasic_yao.sh: line 18: syntax error near unexpected token `asd'
+script/run_tasic_yao.sh: line 18: `    bmind asd)'
+]0;chenweit@longleaf-login2:/proj/yunligrp/users/chenweit/DL-unmix[chenweit@longleaf-login2 DL-unmix]$ squeye[K[Kue -u chenweit
+             JOBID PARTITION     NAME     USER ST       TIME  NODES NODELIST(REASON)
+          59967774   l40-gpu   poetry chenweit  R    2:16:50      1 g181001
+          59967778   l40-gpu   poetry chenweit  R    2:16:50      1 g181001
+]0;chenweit@longleaf-login2:/proj/yunligrp/users/chenweit/DL-unmix[chenweit@longleaf-login2 DL-unmix]$ squeue -u chenweitbash script/run_tasic_yao.sh --method=asd[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[23Psqueue -u chenweit[Kbash typescript 
+Submitted batch job 59970667
+Submitted batch job 59970668
+Submitted batch job 59970669
+Submitted batch job 59970670
+]0;chenweit@longleaf-login2:/proj/yunligrp/users/chenweit/DL-unmix[chenweit@longleaf-login2 DL-unmix]$ scancel -u chenweit
+]0;chenweit@longleaf-login2:/proj/yunligrp/users/chenweit/DL-unmix[chenweit@longleaf-login2 DL-unmix]$ python[K[K[K[K[K[Kpoetry run python
+Python 3.9.6 (default, Aug  9 2022, 15:42:21) 
+[GCC 8.5.0 20210514 (Red Hat 8.5.0-4)] on linux
+Type "help", "copyright", "credits" or "license" for more information.
+>>> import sys
+>>> import importlib
+>>> import os
+>>> import numpy as np
+>>> from src import *
+>>> run_deconvolution
+Traceback (most recent call last):
+  File "<stdin>", line 1, in <module>
+NameError: name 'run_deconvolution' is not defined
+>>> src
+Traceback (most recent call last):
+  File "<stdin>", line 1, in <module>
+NameError: name 'src' is not defined
+>>> deconvolution
+Traceback (most recent call last):
+  File "<stdin>", line 1, in <module>
+NameError: name 'deconvolution' is not defined
+>>> import src
+>>> src
+<module 'src' from '/proj/yunligrp/users/chenweit/DL-unmix/src/__init__.py'>
+>>> src.deconvolution
+Traceback (most recent call last):
+  File "<stdin>", line 1, in <module>
+AttributeError: module 'src' has no attribute 'deconvolution'
+>>> import src
+>>> src
+<module 'src' from '/proj/yunligrp/users/chenweit/DL-unmix/src/__init__.py'>
+>>> src.deconvolution
+Traceback (most recent call last):
+  File "<stdin>", line 1, in <module>
+AttributeError: module 'src' has no attribute 'deconvolution'
+>>> deconvolution
+Traceback (most recent call last):
+  File "<stdin>", line 1, in <module>
+NameError: name 'deconvolution' is not defined
+>>> src.__name__
+'src'
+>>> 
+[1]+  Stopped                 poetry run python
+]0;chenweit@longleaf-login2:/proj/yunligrp/users/chenweit/DL-unmix[chenweit@longleaf-login2 DL-unmix]$ python
+Python 3.9.6 (default, Aug  9 2022, 15:42:21) 
+[GCC 8.5.0 20210514 (Red Hat 8.5.0-4)] on linux
+Type "help", "copyright", "credits" or "license" for more information.
+>>> import sys
+>>> import importlib
+>>> import os
+>>> import numpy as np
+>>> import src
+Importing src.deconvolution
+Importing src.deconvolution.bisque
+Importing src.deconvolution.bmind
+── [1mAttaching core tidyverse packages[22m ────────────────────────────────────────────────────────────────────────────────────────────────────── tidyverse 2.0.0 ──
+[32m✔[39m [34mdplyr    [39m 1.0.10     [32m✔[39m [34mreadr    [39m 2.1.4 
+[32m✔[39m [34mforcats  [39m 1.0.0      [32m✔[39m [34mstringr  [39m 1.4.1 
+[32m✔[39m [34mggplot2  [39m 3.4.0      [32m✔[39m [34mtibble   [39m 3.1.8 
+[32m✔[39m [34mlubridate[39m 1.9.3      [32m✔[39m [34mtidyr    [39m 1.2.1 
+[32m✔[39m [34mpurrr    [39m 0.3.5      
+── [1mConflicts[22m ──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────── tidyverse_conflicts() ──
+[31m✖[39m [34mdplyr[39m::[32mfilter()[39m masks [34mstats[39m::filter()
+[31m✖[39m [34mdplyr[39m::[32mlag()[39m    masks [34mstats[39m::lag()
+[36mℹ[39m Use the conflicted package ([3m[34m<http://conflicted.r-lib.org/>[39m[23m) to force all conflicts to become errors
+R[write to console]: data.table 1.14.8 using 1 threads (see ?getDTthreads).  Latest news: r-datatable.com
+
+R[write to console]: 
+Attaching package: ‘data.table’
+
+
+R[write to console]: The following objects are masked from ‘package:lubridate’:
+
+    hour, isoweek, mday, minute, month, quarter, second, wday, week,
+    yday, year
+
+
+R[write to console]: The following objects are masked from ‘package:dplyr’:
+
+    between, first, last
+
+
+R[write to console]: The following object is masked from ‘package:purrr’:
+
+    transpose
+
+
+Importing src.deconvolution.gan
+Importing src.deconvolution.music
+Importing src.deconvolution.tca
+Importing src.deconvolution.utils
+Importing src.evaluation
+Importing src.evaluation.benchmarks
+Importing src.evaluation.metrics
+Importing src.evaluation.visualization
+Importing src.main
+Importing src.preprocess
+Importing src.preprocess.download_preprocess_data
+Importing src.preprocess.generate_pseudobulk
+Importing src.utils
+Importing src.utils.helpers
+Importing src.utils.io
+>>> import src.deconvolution
+>>> src.deconvoluution [K
+Traceback (most recent call last):
+  File "<stdin>", line 1, in <module>
+AttributeError: module 'src' has no attribute 'deconvoluution'
+>>> src.deconvoluution[1Ption
+<module 'src.deconvolution' from '/proj/yunligrp/users/chenweit/DL-unmix/src/deconvolution/__init__.py'>
+>>> src.deconvolution.[K.__dir__()
+['__name__', '__doc__', '__package__', '__loader__', '__spec__', '__path__', '__file__', '__cached__', '__builtins__', 'bisque', 'bmind', 'gan', 'music', 'tca', 'utils']
+>>> src.deconvolution.__dir__()[K[K[K[K[K[K[K[K[Kutils.run_deconvolution(''b'm'i'n'd'[C)
+Traceback (most recent call last):
+  File "<stdin>", line 1, in <module>
+  File "/proj/yunligrp/users/chenweit/DL-unmix/src/deconvolution/utils.py", line 5, in run_deconvolution
+    'bmind':run_bMIND,
+NameError: name 'run_bMIND' is not defined
+>>> from src.deconvolution import *
+>>> run_bMIND
+Traceback (most recent call last):
+  File "<stdin>", line 1, in <module>
+NameError: name 'run_bMIND' is not defined
+>>> import src.deconvolution
+>>> bmind
+<module 'src.deconvolution.bmind' from '/proj/yunligrp/users/chenweit/DL-unmix/src/deconvolution/bmind.py'>
+>>> import src.deconvolution
+>>> import src.preprocess
+>>> reun[K[K[K[Krun_decon[K[K[K[K[K[K[K[K[Ksrc.deconvolution_[K.decon[K[K[K[K[Krun_deo[Kcon[K[K[K[K[K[K[K[K[K[K
+<module 'src.deconvolution' from '/proj/yunligrp/users/chenweit/DL-unmix/src/deconvolution/__init__.py'>
+>>> src.deconvolution;[K.utils.rund-[K_[K[K_dsconvo[K[K[K[K[K[Keconvolution
+<function run_deconvolution at 0x7ff13ac00550>
+>>> src.deconvolution.utils.run_deconvolution(''b'm'i'n'd'[C)
+Traceback (most recent call last):
+  File "<stdin>", line 1, in <module>
+  File "/proj/yunligrp/users/chenweit/DL-unmix/src/deconvolution/utils.py", line 5, in run_deconvolution
+    'bmind': bmind.run_bMIND,
+NameError: name 'run_bMIND' is not defined
+>>> 
+[2]+  Stopped                 python
+]0;chenweit@longleaf-login2:/proj/yunligrp/users/chenweit/DL-unmix[chenweit@longleaf-login2 DL-unmix]$ python
+Python 3.9.6 (default, Aug  9 2022, 15:42:21) 
+[GCC 8.5.0 20210514 (Red Hat 8.5.0-4)] on linux
+Type "help", "copyright", "credits" or "license" for more information.
+>>> import sys
+>>> import importlib
+>>> import os
+>>> import numpy as np
+ess
+>>> import src.deconvolution
+── [1mAttaching core tidyverse packages[22m ────────────────────────────────────────────────────────────────────────────────────────────────────── tidyverse 2.0.0 ──
+[32m✔[39m [34mdplyr    [39m 1.0.10     [32m✔[39m [34mreadr    [39m 2.1.4 
+[32m✔[39m [34mforcats  [39m 1.0.0      [32m✔[39m [34mstringr  [39m 1.4.1 
+[32m✔[39m [34mggplot2  [39m 3.4.0      [32m✔[39m [34mtibble   [39m 3.1.8 
+[32m✔[39m [34mlubridate[39m 1.9.3      [32m✔[39m [34mtidyr    [39m 1.2.1 
+[32m✔[39m [34mpurrr    [39m 0.3.5      
+── [1mConflicts[22m ──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────── tidyverse_conflicts() ──
+[31m✖[39m [34mdplyr[39m::[32mfilter()[39m masks [34mstats[39m::filter()
+[31m✖[39m [34mdplyr[39m::[32mlag()[39m    masks [34mstats[39m::lag()
+[36mℹ[39m Use the conflicted package ([3m[34m<http://conflicted.r-lib.org/>[39m[23m) to force all conflicts to become errors
+R[write to console]: data.table 1.14.8 using 1 threads (see ?getDTthreads).  Latest news: r-datatable.com
+
+R[write to console]: 
+Attaching package: ‘data.table’
+
+
+R[write to console]: The following objects are masked from ‘package:lubridate’:
+
+    hour, isoweek, mday, minute, month, quarter, second, wday, week,
+    yday, year
+
+
+R[write to console]: The following objects are masked from ‘package:dplyr’:
+
+    between, first, last
+
+
+R[write to console]: The following object is masked from ‘package:purrr’:
+
+    transpose
+
+
+>>> import src.preprocess
+>>> deo[Kconv[K[K[K[K[K[Ksrc.deconvolution.utils.python[K[K[K[K[K[K[K.run_deconvolution(''b'm'i'n'd'[C)
+Traceback (most recent call last):
+  File "<stdin>", line 1, in <module>
+  File "/proj/yunligrp/users/chenweit/DL-unmix/src/deconvolution/utils.py", line 9, in run_deconvolution
+    return case[method](**kwargs)
+TypeError: run_bMIND() missing 3 required positional arguments: 'target_dir', 'sc_dir', and 'out_dir'
+>>> method=''b'm'i'n'd'
+>>> run_deconvolution(
+...         method,
+...         target_dir='data/processed/mouse_brain/tasic2018_common_genes',
+...         sc_dir='data/processed/mouse_brain/yao2021_common_genes',
+...         out_dir="data/results/mouse_brain",
+...         **kwargs
+...         )
+Traceback (most recent call last):
+  File "<stdin>", line 1, in <module>
+NameError: name 'run_deconvolution' is not defined
+>>> src.deconvolution.utils.run_deconvolution(
+...         method,
+...         target_dir='data/processed/mouse_brain/tasic2018_common_genes',
+...         sc_dir='data/processed/mouse_brain/yao2021_common_genes',
+...         out_dir="data/results/mouse_brain",
+...         **kwargs
+...         )
+Traceback (most recent call last):
+  File "<stdin>", line 6, in <module>
+NameError: name 'kwargs' is not defined
+>>> 
+[3]+  Stopped                 python
+]0;chenweit@longleaf-login2:/proj/yunligrp/users/chenweit/DL-unmix[chenweit@longleaf-login2 DL-unmix]$ python tasic_[K[K[K[K[K[K[K[K[K[K[K[K[Kscript [K/tasicpscript/tasicyscript/tasictscript/tasichscript/tasicoscript/tasicnscript/tasic script/tasic[C[C[C[C[C[C[C[C[C[C[C[C_yao[K[K[K[K[Kc2018_yao2021_experiment.py pythohn[K[K[K[K[K[K[Kbmind
+Traceback (most recent call last):
+  File "/proj/yunligrp/users/chenweit/DL-unmix/script/tasic2018_yao2021_experiment.py", line 5, in <module>
+    import src.deconvolution
+ModuleNotFoundError: No module named 'src'
+]0;chenweit@longleaf-login2:/proj/yunligrp/users/chenweit/DL-unmix[chenweit@longleaf-login2 DL-unmix]$ PATH[K[K[K[KPYTHONPATH=.
+]0;chenweit@longleaf-login2:/proj/yunligrp/users/chenweit/DL-unmix[chenweit@longleaf-login2 DL-unmix]$ PYTHONPATH=.python script/tasic2018_yao2021_experiment.py bmind
+── [1mAttaching core tidyverse packages[22m ────────────────────────────────────────────────────────────────────────────────────────────────────── tidyverse 2.0.0 ──
+[32m✔[39m [34mdplyr    [39m 1.0.10     [32m✔[39m [34mreadr    [39m 2.1.4 
+[32m✔[39m [34mforcats  [39m 1.0.0      [32m✔[39m [34mstringr  [39m 1.4.1 
+[32m✔[39m [34mggplot2  [39m 3.4.0      [32m✔[39m [34mtibble   [39m 3.1.8 
+[32m✔[39m [34mlubridate[39m 1.9.3      [32m✔[39m [34mtidyr    [39m 1.2.1 
+[32m✔[39m [34mpurrr    [39m 0.3.5      
+── [1mConflicts[22m ──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────── tidyverse_conflicts() ──
+[31m✖[39m [34mdplyr[39m::[32mfilter()[39m masks [34mstats[39m::filter()
+[31m✖[39m [34mdplyr[39m::[32mlag()[39m    masks [34mstats[39m::lag()
+[36mℹ[39m Use the conflicted package ([3m[34m<http://conflicted.r-lib.org/>[39m[23m) to force all conflicts to become errors
+R[write to console]: data.table 1.14.8 using 1 threads (see ?getDTthreads).  Latest news: r-datatable.com
+
+R[write to console]: 
+Attaching package: ‘data.table’
+
+
+R[write to console]: The following objects are masked from ‘package:lubridate’:
+
+    hour, isoweek, mday, minute, month, quarter, second, wday, week,
+    yday, year
+
+
+R[write to console]: The following objects are masked from ‘package:dplyr’:
+
+    between, first, last
+
+
+R[write to console]: The following object is masked from ‘package:purrr’:
+
+    transpose
+
+
+Starting bMIND
+Running bMIND in R
+R[write to console]: 
+R[write to console]: [1mindexing[0m [34mtasic2018_common_genes_pbs.tsv[0m [------------------] [32m11.43GB/s[0m, eta: [36m 0s[0m
+R[write to console]: 
+R[write to console]: [1mindexing[0m [34mtasic2018_common_genes_pbs.tsv[0m [=================-] [32m74.86MB/s[0m, eta: [36m 0s[0m
+R[write to console]: 
+R[write to console]: [1mindexing[0m [34mtasic2018_common_genes_pbs.tsv[0m [=================-] [32m74.54MB/s[0m, eta: [36m 0s[0m
+R[write to console]: 
+R[write to console]: [1mindexing[0m [34mtasic2018_common_genes_pbs.tsv[0m [==================] [32m71.25MB/s[0m, eta: [36m 0s[0m
+R[write to console]: 
+R[write to console]: [1mindexing[0m [34mtasic2018_common_genes_pbs.tsv[0m [==================] [32m71.30MB/s[0m, eta: [36m 0s[0m
+R[write to console]:                                                                                                                    
+R[write to console]: 
+[1m[22mNew names:
+[36m•[39m `` -> `...1`
+[1mRows: [22m[34m13464[39m [1mColumns: [22m[34m295[39m
+[36m──[39m [1mColumn specification[22m [36m──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────[39m
+[1mDelimiter:[22m "\t"
+[31mchr[39m   (1): ...1
+[32mdbl[39m (294): 222454, 223184, 225974, 226054, 226022, 226056, 226423, 225675, 2...
+
+[36mℹ[39m Use `spec()` to retrieve the full column specification for this data.
+[36mℹ[39m Specify the column types or set `show_col_types = FALSE` to quiet this message.
+R[write to console]: 
+R[write to console]: [1mindexing[0m [34mtasic2018_common_genes_frac.tsv[0m [================] [32m874.07MB/s[0m, eta: [36m 0s[0m
+R[write to console]:                                                                                                                    
+R[write to console]: 
+[1m[22mNew names:
+[36m•[39m `` -> `...1`
+[1mRows: [22m[34m294[39m [1mColumns: [22m[34m10[39m
+[36m──[39m [1mColumn specification[22m [36m──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────[39m
+[1mDelimiter:[22m "\t"
+[32mdbl[39m (10): ...1, Astro, L2/3 IT, L6 CT, L6 IT, Lamp5, Oligo, Pvalb, Sst, Vip
+
+[36mℹ[39m Use `spec()` to retrieve the full column specification for this data.
+[36mℹ[39m Specify the column types or set `show_col_types = FALSE` to quiet this message.
+^CException ignored from cffi callback <function _consolewrite_ex at 0x7f9813cab280>:
+Traceback (most recent call last):
+  File "/nas/longleaf/rhel8/apps/python/3.9.6/lib/python3.9/site-packages/rpy2/rinterface_lib/callbacks.py", line 130, in _consolewrite_ex
+    @ffi_proxy.callback(ffi_proxy._consolewrite_ex_def,
+  File "/nas/longleaf/rhel8/apps/python/3.9.6/lib/python3.9/site-packages/rpy2/rinterface.py", line 92, in _sigint_handler
+    raise KeyboardInterrupt()
+KeyboardInterrupt: 
+R[write to console]: [1mindexing[0m [34myao2021_common_genes_count.tsv[0m [-----------------] [32m415.90GB/s[0m, eta: [36m 0s[0m
+R[write to console]: 
+R[write to console]: [1mindexing[0m [34myao2021_common_genes_count.tsv[0m [====-------------] [32m955.57MB/s[0m, eta: [36m 1s[0m
+^Z
+[4]+  Stopped                 python script/tasic2018_yao2021_experiment.py bmind
+]0;chenweit@longleaf-login2:/proj/yunligrp/users/chenweit/DL-unmix[chenweit@longleaf-login2 DL-unmix]$ python script/tasic2018_yao2021_experiment.py bmind[K[K[K[K[Kgan [K[K[K[Kmethod --batch_size=10
+── [1mAttaching core tidyverse packages[22m ────────────────────────────────────────────────────────────────────────────────────────────────────── tidyverse 2.0.0 ──
+[32m✔[39m [34mdplyr    [39m 1.0.10     [32m✔[39m [34mreadr    [39m 2.1.4 
+[32m✔[39m [34mforcats  [39m 1.0.0      [32m✔[39m [34mstringr  [39m 1.4.1 
+[32m✔[39m [34mggplot2  [39m 3.4.0      [32m✔[39m [34mtibble   [39m 3.1.8 
+[32m✔[39m [34mlubridate[39m 1.9.3      [32m✔[39m [34mtidyr    [39m 1.2.1 
+[32m✔[39m [34mpurrr    [39m 0.3.5      
+── [1mConflicts[22m ──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────── tidyverse_conflicts() ──
+[31m✖[39m [34mdplyr[39m::[32mfilter()[39m masks [34mstats[39m::filter()
+[31m✖[39m [34mdplyr[39m::[32mlag()[39m    masks [34mstats[39m::lag()
+[36mℹ[39m Use the conflicted package ([3m[34m<http://conflicted.r-lib.org/>[39m[23m) to force all conflicts to become errors
+R[write to console]: data.table 1.14.8 using 1 threads (see ?getDTthreads).  Latest news: r-datatable.com
+
+R[write to console]: 
+Attaching package: ‘data.table’
+
+
+R[write to console]: The following objects are masked from ‘package:lubridate’:
+
+    hour, isoweek, mday, minute, month, quarter, second, wday, week,
+    yday, year
+
+
+R[write to console]: The following objects are masked from ‘package:dplyr’:
+
+    between, first, last
+
+
+R[write to console]: The following object is masked from ‘package:purrr’:
+
+    transpose
+
+
+Traceback (most recent call last):
+  File "/proj/yunligrp/users/chenweit/DL-unmix/script/tasic2018_yao2021_experiment.py", line 66, in <module>
+    main()
+  File "/proj/yunligrp/users/chenweit/DL-unmix/script/tasic2018_yao2021_experiment.py", line 22, in main
+    raise ValueError("Invalid method specified. Please specify either 'bmind' or 'gan'.")
+ValueError: Invalid method specified. Please specify either 'bmind' or 'gan'.
+[?25h]0;chenweit@longleaf-login2:/proj/yunligrp/users/chenweit/DL-unmix[chenweit@longleaf-login2 DL-unmix]$ python script/tasic2018_yao2021_experiment.py method --batch_size=10[1P --batch_size=10[1P --batch_size=10[1P --batch_size=10[1P --batch_size=10[1P --batch_size=10[1P --batch_size=10g --batch_size=10a --batch_size=10n --batch_size=10
+── [1mAttaching core tidyverse packages[22m ────────────────────────────────────────────────────────────────────────────────────────────────────── tidyverse 2.0.0 ──
+[32m✔[39m [34mdplyr    [39m 1.0.10     [32m✔[39m [34mreadr    [39m 2.1.4 
+[32m✔[39m [34mforcats  [39m 1.0.0      [32m✔[39m [34mstringr  [39m 1.4.1 
+[32m✔[39m [34mggplot2  [39m 3.4.0      [32m✔[39m [34mtibble   [39m 3.1.8 
+[32m✔[39m [34mlubridate[39m 1.9.3      [32m✔[39m [34mtidyr    [39m 1.2.1 
+[32m✔[39m [34mpurrr    [39m 0.3.5      
+── [1mConflicts[22m ──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────── tidyverse_conflicts() ──
+[31m✖[39m [34mdplyr[39m::[32mfilter()[39m masks [34mstats[39m::filter()
+[31m✖[39m [34mdplyr[39m::[32mlag()[39m    masks [34mstats[39m::lag()
+[36mℹ[39m Use the conflicted package ([3m[34m<http://conflicted.r-lib.org/>[39m[23m) to force all conflicts to become errors
+R[write to console]: data.table 1.14.8 using 1 threads (see ?getDTthreads).  Latest news: r-datatable.com
+
+R[write to console]: 
+Attaching package: ‘data.table’
+
+
+R[write to console]: The following objects are masked from ‘package:lubridate’:
+
+    hour, isoweek, mday, minute, month, quarter, second, wday, week,
+    yday, year
+
+
+R[write to console]: The following objects are masked from ‘package:dplyr’:
+
+    between, first, last
+
+
+R[write to console]: The following object is masked from ‘package:purrr’:
+
+    transpose
+
+
+Starting DL-unmix GAN
+^CTraceback (most recent call last):
+  File "/proj/yunligrp/users/chenweit/DL-unmix/script/tasic2018_yao2021_experiment.py", line 66, in <module>
+    main()
+  File "/proj/yunligrp/users/chenweit/DL-unmix/script/tasic2018_yao2021_experiment.py", line 57, in main
+    src.deconvolution.utils.run_deconvolution(
+  File "/proj/yunligrp/users/chenweit/DL-unmix/src/deconvolution/utils.py", line 9, in run_deconvolution
+    return case[method](**kwargs)
+  File "/proj/yunligrp/users/chenweit/DL-unmix/src/deconvolution/gan.py", line 64, in run_DLunmix_GAN
+    sc_count = pd.read_csv(f"{sc_dir}_count.tsv", sep="\t", index_col=0).T
+  File "/nas/longleaf/home/chenweit/.local/lib/python3.9/site-packages/pandas/io/parsers/readers.py", line 912, in read_csv
+    return _read(filepath_or_buffer, kwds)
+  File "/nas/longleaf/home/chenweit/.local/lib/python3.9/site-packages/pandas/io/parsers/readers.py", line 583, in _read
+    return parser.read(nrows)
+  File "/nas/longleaf/home/chenweit/.local/lib/python3.9/site-packages/pandas/io/parsers/readers.py", line 1704, in read
+    ) = self._engine.read(  # type: ignore[attr-defined]
+  File "/nas/longleaf/home/chenweit/.local/lib/python3.9/site-packages/pandas/io/parsers/c_parser_wrapper.py", line 234, in read
+    chunks = self._reader.read_low_memory(nrows)
+  File "pandas/_libs/parsers.pyx", line 812, in pandas._libs.parsers.TextReader.read_low_memory
+  File "pandas/_libs/parsers.pyx", line 889, in pandas._libs.parsers.TextReader._read_rows
+  File "pandas/_libs/parsers.pyx", line 1034, in pandas._libs.parsers.TextReader._convert_column_data
+  File "pandas/_libs/parsers.pyx", line 1088, in pandas._libs.parsers.TextReader._convert_tokens
+  File "pandas/_libs/parsers.pyx", line 1163, in pandas._libs.parsers.TextReader._convert_with_dtype
+  File "/nas/longleaf/home/chenweit/.local/lib/python3.9/site-packages/pandas/core/dtypes/common.py", line 1383, in is_extension_array_dtype
+    elif isinstance(dtype, np.dtype):
+  File "/nas/longleaf/rhel8/apps/python/3.9.6/lib/python3.9/site-packages/rpy2/rinterface.py", line 92, in _sigint_handler
+    raise KeyboardInterrupt()
+KeyboardInterrupt
+[?25h^Z
+[5]+  Stopped                 python script/tasic2018_yao2021_experiment.py gan --batch_size=10
+]0;chenweit@longleaf-login2:/proj/yunligrp/users/chenweit/DL-unmix[chenweit@longleaf-login2 DL-unmix]$ bash bashs.sh 
+Submitted batch job 59970699
+Submitted batch job 59970700
+Submitted batch job 59970701
+Submitted batch job 59970702
+]0;chenweit@longleaf-login2:/proj/yunligrp/users/chenweit/DL-unmix[chenweit@longleaf-login2 DL-unmix]$ squeue -u chenweit
+             JOBID PARTITION     NAME     USER ST       TIME  NODES NODELIST(REASON)
+          59970699 general_b   poetry chenweit  R       0:02      1 c0404
+          59970700   l40-gpu   poetry chenweit  R       0:02      1 g181001
+          59970701   l40-gpu   poetry chenweit  R       0:02      1 g181001
+          59970702   l40-gpu   poetry chenweit  R       0:02      1 g181003
+]0;chenweit@longleaf-login2:/proj/yunligrp/users/chenweit/DL-unmix[chenweit@longleaf-login2 DL-unmix]$ squeue -u chenweit
+             JOBID PARTITION     NAME     USER ST       TIME  NODES NODELIST(REASON)
+          59970699 general_b   poetry chenweit  R       0:06      1 c0404
+          59970700   l40-gpu   poetry chenweit  R       0:06      1 g181001
+          59970701   l40-gpu   poetry chenweit  R       0:06      1 g181001
+          59970702   l40-gpu   poetry chenweit  R       0:06      1 g181003
+]0;chenweit@longleaf-login2:/proj/yunligrp/users/chenweit/DL-unmix[chenweit@longleaf-login2 DL-unmix]$ squeue -u chenweit
+             JOBID PARTITION     NAME     USER ST       TIME  NODES NODELIST(REASON)
+]0;chenweit@longleaf-login2:/proj/yunligrp/users/chenweit/DL-unmix[chenweit@longleaf-login2 DL-unmix]$ bash script/run_tasic_yao.sh --method=bmind
+Submitted batch job 59970711
+]0;chenweit@longleaf-login2:/proj/yunligrp/users/chenweit/DL-unmix[chenweit@longleaf-login2 DL-unmix]$ bash script/run_tasic_yao.sh --method=bmind[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[25Psqueue -u chenweit
+             JOBID PARTITION     NAME     USER ST       TIME  NODES NODELIST(REASON)
+          59970711 general_b   poetry chenweit  R       0:06      1 c0405
+]0;chenweit@longleaf-login2:/proj/yunligrp/users/chenweit/DL-unmix[chenweit@longleaf-login2 DL-unmix]$ squeue -u chenweit
+             JOBID PARTITION     NAME     USER ST       TIME  NODES NODELIST(REASON)
+]0;chenweit@longleaf-login2:/proj/yunligrp/users/chenweit/DL-unmix[chenweit@longleaf-login2 DL-unmix]$ squeue -u chenweit
+             JOBID PARTITION     NAME     USER ST       TIME  NODES NODELIST(REASON)
+]0;chenweit@longleaf-login2:/proj/yunligrp/users/chenweit/DL-unmix[chenweit@longleaf-login2 DL-unmix]$ squeue -u chenweit
+             JOBID PARTITION     NAME     USER ST       TIME  NODES NODELIST(REASON)
+]0;chenweit@longleaf-login2:/proj/yunligrp/users/chenweit/DL-unmix[chenweit@longleaf-login2 DL-unmix]$ squeue -u chenweitbash script/run_tasic_yao.sh --method=bmind
+Submitted batch job 59970713
+]0;chenweit@longleaf-login2:/proj/yunligrp/users/chenweit/DL-unmix[chenweit@longleaf-login2 DL-unmix]$ squeue -u chenweit
+             JOBID PARTITION     NAME     USER ST       TIME  NODES NODELIST(REASON)
+          59970713 general_b   poetry chenweit  R       0:01      1 c0405
+]0;chenweit@longleaf-login2:/proj/yunligrp/users/chenweit/DL-unmix[chenweit@longleaf-login2 DL-unmix]$ squeue -u chenweit
+             JOBID PARTITION     NAME     USER ST       TIME  NODES NODELIST(REASON)
+          59970713 general_b   poetry chenweit  R       0:15      1 c0405
+]0;chenweit@longleaf-login2:/proj/yunligrp/users/chenweit/DL-unmix[chenweit@longleaf-login2 DL-unmix]$ bash script/run_tasic_yao.sh --method=gan --batch_size=10
+--batch_size=50
+bash script/run_tasic_yao.sh --method=gan --batch_size=100
+Submitted batch job 59970779
+]0;chenweit@longleaf-login2:/proj/yunligrp/users/chenweit/DL-unmix[chenweit@longleaf-login2 DL-unmix]$ bash script/run_tasic_yao.sh --method=gan --batch_size=50
+Submitted batch job 59970780
+]0;chenweit@longleaf-login2:/proj/yunligrp/users/chenweit/DL-unmix[chenweit@longleaf-login2 DL-unmix]$ bash script/run_tasic_yao.sh --method=gan --batch_size=100
+Submitted batch job 59970781
+]0;chenweit@longleaf-login2:/proj/yunligrp/users/chenweit/DL-unmix[chenweit@longleaf-login2 DL-unmix]$ bash script/run_tasic_yao.sh --method=gan --batch_size=100[1P5010[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[Csqueue -u chenweit[Kbash script/run_tasic_yao.sh --method=bmind[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[25Psqueue -u chenweit
+             JOBID PARTITION     NAME     USER ST       TIME  NODES NODELIST(REASON)
+          59970713 general_b   poetry chenweit  R       0:58      1 c0405
+          59970779   l40-gpu   poetry chenweit  R       0:25      1 g181001
+          59970780   l40-gpu   poetry chenweit  R       0:25      1 g181001
+          59970781   l40-gpu   poetry chenweit  R       0:25      1 g181003
+]0;chenweit@longleaf-login2:/proj/yunligrp/users/chenweit/DL-unmix[chenweit@longleaf-login2 DL-unmix]$ scancel -u chenweit
+]0;chenweit@longleaf-login2:/proj/yunligrp/users/chenweit/DL-unmix[chenweit@longleaf-login2 DL-unmix]$ clear [K[K[K[K[K[Krm daa[Kta/results/mouse_brain/([K*
+]0;chenweit@longleaf-login2:/proj/yunligrp/users/chenweit/DL-unmix[chenweit@longleaf-login2 DL-unmix]$ bash bashes.sh
+bash: bashes.sh: No such file or directory
+]0;chenweit@longleaf-login2:/proj/yunligrp/users/chenweit/DL-unmix[chenweit@longleaf-login2 DL-unmix]$ bash bashes.sh[1Ps.sh
+Submitted batch job 59970795
+Submitted batch job 59970796
+Submitted batch job 59970797
+Submitted batch job 59970798
+]0;chenweit@longleaf-login2:/proj/yunligrp/users/chenweit/DL-unmix[chenweit@longleaf-login2 DL-unmix]$ python
+Python 3.9.6 (default, Aug  9 2022, 15:42:21) 
+[GCC 8.5.0 20210514 (Red Hat 8.5.0-4)] on linux
+Type "help", "copyright", "credits" or "license" for more information.
+>>> s[Kint()T)r)u)e)
+1
+>>> int(True)'True)[C[C[C[C')\)[1P)
+Traceback (most recent call last):
+  File "<stdin>", line 1, in <module>
+ValueError: invalid literal for int() with base 10: 'True'
+>>> bash script/run_tasic_yao.sh --method=gan --batch_size=10 --seed=42
+  File "<stdin>", line 1
+    bash script/run_tasic_yao.sh --method=gan --batch_size=10 --seed=42
+         ^
+SyntaxError: invalid syntax
+>>> bash script/run_tasic_yao.sh --method=gan --batch_size=50 --seed=88
+  File "<stdin>", line 1
+    bash script/run_tasic_yao.sh --method=gan --batch_size=50 --seed=88
+         ^
+SyntaxError: invalid syntax
+>>> bash script/run_tasic_yao.sh --method=gan --batch_size=100 --seed=666
+  File "<stdin>", line 1
+    bash script/run_tasic_yao.sh --method=gan --batch_size=100 --seed=666
+         ^
+SyntaxError: invalid syntax
+>>> 
+[6]+  Stopped                 python
+]0;chenweit@longleaf-login2:/proj/yunligrp/users/chenweit/DL-unmix[chenweit@longleaf-login2 DL-unmix]$ bash script/run_tasic_yao.sh --method=gan --batch_size=10 --seed=42
+ethod=gan --batch_size=50 --seed=88
+bash script/run_tasic_yao.sh --method=gan --batch_size=100 --seed=666
+Submitted batch job 59970906
+]0;chenweit@longleaf-login2:/proj/yunligrp/users/chenweit/DL-unmix[chenweit@longleaf-login2 DL-unmix]$ bash script/run_tasic_yao.sh --method=gan --batch_size=50 --seed=88
+Submitted batch job 59970907
+]0;chenweit@longleaf-login2:/proj/yunligrp/users/chenweit/DL-unmix[chenweit@longleaf-login2 DL-unmix]$ bash script/run_tasic_yao.sh --method=gan --batch_size=100 --seed=666
+Submitted batch job 59970908
+]0;chenweit@longleaf-login2:/proj/yunligrp/users/chenweit/DL-unmix[chenweit@longleaf-login2 DL-unmix]$ squeue -u chenweit
+             JOBID PARTITION     NAME     USER ST       TIME  NODES NODELIST(REASON)
+          59970795 general_b   poetry chenweit  R       6:02      1 c130501
+          59970906   l40-gpu   poetry chenweit  R       0:23      1 g181001
+          59970907   l40-gpu   poetry chenweit  R       0:23      1 g181001
+          59970908   l40-gpu   poetry chenweit  R       0:23      1 g181003
+]0;chenweit@longleaf-login2:/proj/yunligrp/users/chenweit/DL-unmix[chenweit@longleaf-login2 DL-unmix]$ squeue -u chenweit
+             JOBID PARTITION     NAME     USER ST       TIME  NODES NODELIST(REASON)
+          59970795 general_b   poetry chenweit  R       6:33      1 c130501
+          59970906   l40-gpu   poetry chenweit  R       0:54      1 g181001
+          59970907   l40-gpu   poetry chenweit  R       0:54      1 g181001
+          59970908   l40-gpu   poetry chenweit  R       0:54      1 g181003
+]0;chenweit@longleaf-login2:/proj/yunligrp/users/chenweit/DL-unmix[chenweit@longleaf-login2 DL-unmix]$ squeue -u chenweit
+             JOBID PARTITION     NAME     USER ST       TIME  NODES NODELIST(REASON)
+          59970795 general_b   poetry chenweit  R       8:26      1 c130501
+]0;chenweit@longleaf-login2:/proj/yunligrp/users/chenweit/DL-unmix[chenweit@longleaf-login2 DL-unmix]$ pu[Kython
+Python 3.9.6 (default, Aug  9 2022, 15:42:21) 
+[GCC 8.5.0 20210514 (Red Hat 8.5.0-4)] on linux
+Type "help", "copyright", "credits" or "license" for more information.
+>>> sys.ar[K[K[K[K[K[Kargvs = []']']-']-']m']e']t']h']o']d']=']g']a']n'][C,]']']-']-']b']a']t']c']h']_']s']z']i']e'][1P'][1P'][1P']i']e'][1P']a']z'][1P'][1P']z']e']=']1']0'][C,]']']-']-']s']e']e']d']=']1']0']
+>>> kwardgs[K[K[Kgs = parse[K[K[K[K[K[K[K[K[K[K[K[K[K[Kimport sys
+>>> import importlib
+>>> import os
+>>> import numpy as np
+ess
+
+def parse_key_value_args(args):
+    kwargs = {}
+    for arg in args:
+        if '=' in arg:
+            key, value = arg.split('=', 1)
+            try:
+                value = float(value)
+            except ValueError:
+                pass
+            kwargs[key.lstrip('--')] = value
+    return kwargs
+>>> import src.deconvolution
+── [1mAttaching core tidyverse packages[22m ────────────────────────────────────────────────────────────────────────────────────────────────────── tidyverse 2.0.0 ──
+[32m✔[39m [34mdplyr    [39m 1.0.10     [32m✔[39m [34mreadr    [39m 2.1.4 
+[32m✔[39m [34mforcats  [39m 1.0.0      [32m✔[39m [34mstringr  [39m 1.4.1 
+[32m✔[39m [34mggplot2  [39m 3.4.0      [32m✔[39m [34mtibble   [39m 3.1.8 
+[32m✔[39m [34mlubridate[39m 1.9.3      [32m✔[39m [34mtidyr    [39m 1.2.1 
+[32m✔[39m [34mpurrr    [39m 0.3.5      
+── [1mConflicts[22m ──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────── tidyverse_conflicts() ──
+[31m✖[39m [34mdplyr[39m::[32mfilter()[39m masks [34mstats[39m::filter()
+[31m✖[39m [34mdplyr[39m::[32mlag()[39m    masks [34mstats[39m::lag()
+[36mℹ[39m Use the conflicted package ([3m[34m<http://conflicted.r-lib.org/>[39m[23m) to force all conflicts to become errors
+R[write to console]: data.table 1.14.8 using 1 threads (see ?getDTthreads).  Latest news: r-datatable.com
+
+R[write to console]: 
+Attaching package: ‘data.table’
+
+
+R[write to console]: The following objects are masked from ‘package:lubridate’:
+
+    hour, isoweek, mday, minute, month, quarter, second, wday, week,
+    yday, year
+
+
+R[write to console]: The following objects are masked from ‘package:dplyr’:
+
+    between, first, last
+
+
+R[write to console]: The following object is masked from ‘package:purrr’:
+
+    transpose
+
+
+>>> import src.preprocess
+>>> 
+>>> def parse_key_value_args(args):
+...     kwargs = {}
+...     for arg in args:
+...         if '=' in arg:
+...             key, value = arg.split('=', 1)
+...             try:
+...                 value = float(value)
+...             except ValueError:
+...                 pass
+...             kwargs[key.lstrip('--')] = value
+...     return kwargs
+... 
+>>> kwarge[Ks = [K[K[K s= [K[K[K= parse_key_value_args(argvs)
+>>> w[Kkwargs
+{'method': 'gan', 'batch_size': 10.0, 'seed': 10.0}
+>>> method = kwargs['method']
+>>> del kwargs['method']
+>>> src.deconvolution.utils.run_deconvolution(
+...         method,
+...         target_dir='data/processed/mouse_brain/tasic2018_common_genes',
+...         sc_dir='data/processed/mouse_brain/yao2021_common_genes',
+...         out_dir="data/results/mouse_brain",
+...         **kwargs
+...         )
+Starting DL-unmix GAN
+Output files already exist in data/processed/mouse_brain. Loading existing files.
+Number of genes after QC: 8481
+Number of common genes: 8481
+Using device: cpu to run the GAN model.
+Running the 1 batch.
+Traceback (most recent call last):
+  File "<stdin>", line 1, in <module>
+  File "/proj/yunligrp/users/chenweit/DL-unmix/src/deconvolution/utils.py", line 9, in run_deconvolution
+    return case[method](**kwargs)
+  File "/proj/yunligrp/users/chenweit/DL-unmix/src/deconvolution/gan.py", line 114, in run_DLunmix_GAN
+    genes = permuted_genes[lower:upper]
+TypeError: slice indices must be integers or None or have an __index__ method
+>>> ka[Kwargs
+{'batch_size': 10.0, 'seed': 10.0}
+>>> def parse_key_value_args(args):
+...     kwargs = {}
+...     for arg in args:
+...         if '=' in arg:
+...             key, value_str = arg.split('=', 1)
+...             key = key.lstrip('--')
+...             try:
+...                 value = int(value_str)
+...             except ValueError:
+...                 try:
+...                     value = float(value_str)
+...                 except ValueError:
+...                     value = value_str
+...             kwargs[key] = value
+...     return kwargs
+... 
+>>> wargs[K[K[K[K[Kkwargs=parse_key_value_args(argvs)
+>>> kwargs
+{'method': 'gan', 'batch_size': 10, 'seed': 10}
+>>> del kwargs['method']
+>>> src.deconvolution.utils.run_deconvolution(
+...         method,
+...         target_dir='data/processed/mouse_brain/tasic2018_common_genes',
+...         sc_dir='data/processed/mouse_brain/yao2021_common_genes',
+...         out_dir="data/results/mouse_brain",
+...         **kwargs
+...         )
+Starting DL-unmix GAN
+Output files already exist in data/processed/mouse_brain. Loading existing files.
+Number of genes after QC: 8481
+Number of common genes: 8481
+Using device: cpu to run the GAN model.
+Running the 1 batch.
+Genes: ['Kif3a' 'Ube2n-ps1' 'Ajap1' 'Scmh1' 'Lurap1' 'Atp9b' 'Rpgr' 'Asphd1'
+ 'Ppp1r14b' 'Necab3']
+Epoch 0, Generator Loss: 99.42969512939453, Discriminator Loss: 0.6937435865402222
+Epoch 10, Generator Loss: 99.13775634765625, Discriminator Loss: 0.5695842504501343
+Epoch 20, Generator Loss: 98.693359375, Discriminator Loss: 0.5155738592147827
+Epoch 30, Generator Loss: 97.70746612548828, Discriminator Loss: 0.49356889724731445
+Epoch 40, Generator Loss: 95.11117553710938, Discriminator Loss: 0.48564109206199646
+Epoch 50, Generator Loss: 88.89543151855469, Discriminator Loss: 0.4683002531528473
+Epoch 60, Generator Loss: 76.1282958984375, Discriminator Loss: 0.42710939049720764
+Epoch 70, Generator Loss: 63.820091247558594, Discriminator Loss: 0.29961156845092773
+Epoch 80, Generator Loss: 61.806846618652344, Discriminator Loss: 0.16711360216140747
+Epoch 90, Generator Loss: 60.45377731323242, Discriminator Loss: 0.11410373449325562
+Epoch 100, Generator Loss: 59.9976806640625, Discriminator Loss: 0.08164774626493454
+Epoch 110, Generator Loss: 59.81711959838867, Discriminator Loss: 0.06917048990726471
+Epoch 120, Generator Loss: 59.81626510620117, Discriminator Loss: 0.06086109206080437
+Epoch 130, Generator Loss: 59.576210021972656, Discriminator Loss: 0.05741111934185028
+Epoch 140, Generator Loss: 59.244380950927734, Discriminator Loss: 0.05509323626756668
+Epoch 150, Generator Loss: 58.654029846191406, Discriminator Loss: 0.05278825759887695
+Epoch 160, Generator Loss: 58.39691162109375, Discriminator Loss: 0.051389180123806
+Epoch 170, Generator Loss: 57.241371154785156, Discriminator Loss: 0.050180867314338684
+Epoch 180, Generator Loss: 56.78527069091797, Discriminator Loss: 0.049280229955911636
+Epoch 190, Generator Loss: 56.16656494140625, Discriminator Loss: 0.05329599976539612
+Epoch 200, Generator Loss: 57.369956970214844, Discriminator Loss: 0.05979064106941223
+Epoch 210, Generator Loss: 59.703330993652344, Discriminator Loss: 0.06140151619911194
+Epoch 220, Generator Loss: 58.065696716308594, Discriminator Loss: 0.05716132000088692
+Epoch 230, Generator Loss: 55.78761291503906, Discriminator Loss: 0.040687382221221924
+Epoch 240, Generator Loss: 54.37961959838867, Discriminator Loss: 0.02990361675620079
+Epoch 250, Generator Loss: 53.537689208984375, Discriminator Loss: 0.023402776569128036
+Epoch 260, Generator Loss: 52.86901092529297, Discriminator Loss: 0.02483518049120903
+Epoch 270, Generator Loss: 53.08589553833008, Discriminator Loss: 0.04260284826159477
+Epoch 280, Generator Loss: 53.845970153808594, Discriminator Loss: 0.08458991348743439
+Epoch 290, Generator Loss: 54.75019836425781, Discriminator Loss: 0.09956160187721252
+Epoch 300, Generator Loss: 55.54907989501953, Discriminator Loss: 0.06626490503549576
+Epoch 310, Generator Loss: 54.92555236816406, Discriminator Loss: 0.0699729323387146
+Epoch 320, Generator Loss: 50.42912673950195, Discriminator Loss: 0.0745074450969696
+Epoch 330, Generator Loss: 46.00884246826172, Discriminator Loss: 0.0963706374168396
+Epoch 340, Generator Loss: 50.816200256347656, Discriminator Loss: 0.16069340705871582
+Epoch 350, Generator Loss: 58.86289978027344, Discriminator Loss: 0.24907353520393372
+Epoch 360, Generator Loss: 61.30337905883789, Discriminator Loss: 0.1460965871810913
+Epoch 370, Generator Loss: 60.557899475097656, Discriminator Loss: 0.39673542976379395
+Epoch 380, Generator Loss: 59.06678771972656, Discriminator Loss: 0.49739259481430054
+Epoch 390, Generator Loss: 55.83037567138672, Discriminator Loss: 0.5220727920532227
+Epoch 400, Generator Loss: 53.85545349121094, Discriminator Loss: 0.4324110746383667
+Epoch 410, Generator Loss: 53.24329376220703, Discriminator Loss: 0.24978411197662354
+Epoch 420, Generator Loss: 52.458396911621094, Discriminator Loss: 0.18928231298923492
+Epoch 430, Generator Loss: 50.53022766113281, Discriminator Loss: 0.2108992040157318
+Epoch 440, Generator Loss: 48.612815856933594, Discriminator Loss: 0.28268611431121826
+Epoch 450, Generator Loss: 48.840248107910156, Discriminator Loss: 0.2575710415840149
+Epoch 460, Generator Loss: 48.23041534423828, Discriminator Loss: 0.19974368810653687
+Epoch 470, Generator Loss: 46.76141357421875, Discriminator Loss: 0.21665552258491516
+Epoch 480, Generator Loss: 46.81346893310547, Discriminator Loss: 0.19124488532543182
+Epoch 490, Generator Loss: 47.009796142578125, Discriminator Loss: 0.1396203339099884
+Epoch 500, Generator Loss: 46.48469924926758, Discriminator Loss: 0.12208856642246246
+Epoch 510, Generator Loss: 43.899566650390625, Discriminator Loss: 0.13343773782253265
+Epoch 520, Generator Loss: 42.318336486816406, Discriminator Loss: 0.1538856029510498
+Epoch 530, Generator Loss: 41.648590087890625, Discriminator Loss: 0.16269758343696594
+Epoch 540, Generator Loss: 40.65492248535156, Discriminator Loss: 0.18776574730873108
+Epoch 550, Generator Loss: 40.09526824951172, Discriminator Loss: 0.21587204933166504
+Epoch 560, Generator Loss: 39.841156005859375, Discriminator Loss: 0.24339857697486877
+Epoch 570, Generator Loss: 40.18675994873047, Discriminator Loss: 0.37198078632354736
+Epoch 580, Generator Loss: 41.135032653808594, Discriminator Loss: 0.41643887758255005
+Epoch 590, Generator Loss: 41.6356201171875, Discriminator Loss: 0.5426445007324219
+Epoch 600, Generator Loss: 41.83971405029297, Discriminator Loss: 0.6792099475860596
+Epoch 610, Generator Loss: 39.49842834472656, Discriminator Loss: 0.23174290359020233
+Epoch 620, Generator Loss: 34.87316131591797, Discriminator Loss: 0.1441442221403122
+Epoch 630, Generator Loss: 32.103515625, Discriminator Loss: 0.23577219247817993
+Epoch 640, Generator Loss: 32.017677307128906, Discriminator Loss: 0.4384043216705322
+Epoch 650, Generator Loss: 33.02305603027344, Discriminator Loss: 0.41039037704467773
+Epoch 660, Generator Loss: 32.899784088134766, Discriminator Loss: 0.22387546300888062
+Epoch 670, Generator Loss: 31.917165756225586, Discriminator Loss: 0.17861394584178925
+Epoch 680, Generator Loss: 32.41482925415039, Discriminator Loss: 0.31508344411849976
+Epoch 690, Generator Loss: 33.628841400146484, Discriminator Loss: 0.3556337058544159
+Epoch 700, Generator Loss: 36.81251525878906, Discriminator Loss: 0.21711906790733337
+Epoch 710, Generator Loss: 38.10371780395508, Discriminator Loss: 0.1416216492652893
+Epoch 720, Generator Loss: 34.79228210449219, Discriminator Loss: 0.17832739651203156
+Epoch 730, Generator Loss: 34.15336608886719, Discriminator Loss: 0.2525383234024048
+Epoch 740, Generator Loss: 34.812095642089844, Discriminator Loss: 0.28307461738586426
+Epoch 750, Generator Loss: 36.070457458496094, Discriminator Loss: 0.2497164011001587
+Epoch 760, Generator Loss: 35.389015197753906, Discriminator Loss: 0.18192648887634277
+Epoch 770, Generator Loss: 34.76087951660156, Discriminator Loss: 0.14526522159576416
+Epoch 780, Generator Loss: 34.376556396484375, Discriminator Loss: 0.13778056204319
+Epoch 790, Generator Loss: 34.13195037841797, Discriminator Loss: 0.13849222660064697
+Epoch 800, Generator Loss: 34.330352783203125, Discriminator Loss: 0.16097219288349152
+Epoch 810, Generator Loss: 35.14788055419922, Discriminator Loss: 0.1993318647146225
+Epoch 820, Generator Loss: 35.968467712402344, Discriminator Loss: 0.20432189106941223
+Epoch 830, Generator Loss: 36.18882751464844, Discriminator Loss: 0.16297733783721924
+Epoch 840, Generator Loss: 36.50386428833008, Discriminator Loss: 0.15605053305625916
+Epoch 850, Generator Loss: 36.141571044921875, Discriminator Loss: 0.12862643599510193
+Epoch 860, Generator Loss: 35.17904281616211, Discriminator Loss: 0.11552360653877258
+Epoch 870, Generator Loss: 34.46253967285156, Discriminator Loss: 0.12488539516925812
+Epoch 880, Generator Loss: 33.94928741455078, Discriminator Loss: 0.1797867715358734
+Epoch 890, Generator Loss: 33.224266052246094, Discriminator Loss: 0.2449961006641388
+Epoch 900, Generator Loss: 32.870887756347656, Discriminator Loss: 0.2393738329410553
+Epoch 910, Generator Loss: 32.5253791809082, Discriminator Loss: 0.17667829990386963
+Epoch 920, Generator Loss: 32.40462875366211, Discriminator Loss: 0.13223515450954437
+Epoch 930, Generator Loss: 32.551719665527344, Discriminator Loss: 0.14010602235794067
+Epoch 940, Generator Loss: 32.54862976074219, Discriminator Loss: 0.15039005875587463
+Epoch 950, Generator Loss: 32.658348083496094, Discriminator Loss: 0.15515103936195374
+Epoch 960, Generator Loss: 32.99163055419922, Discriminator Loss: 0.15125486254692078
+Epoch 970, Generator Loss: 32.88777160644531, Discriminator Loss: 0.14221903681755066
+Epoch 980, Generator Loss: 32.7094612121582, Discriminator Loss: 0.20383673906326294
+Epoch 990, Generator Loss: 33.585941314697266, Discriminator Loss: 0.2671963572502136
+Epoch 1000, Generator Loss: 33.574790954589844, Discriminator Loss: 0.2262837290763855
+Epoch 1010, Generator Loss: 33.23896789550781, Discriminator Loss: 0.17095687985420227
+Epoch 1020, Generator Loss: 33.12074279785156, Discriminator Loss: 0.1324354112148285
+Epoch 1030, Generator Loss: 32.88323211669922, Discriminator Loss: 0.11186501383781433
+Epoch 1040, Generator Loss: 32.57188415527344, Discriminator Loss: 0.10578489303588867
+Epoch 1050, Generator Loss: 31.970806121826172, Discriminator Loss: 0.10947969555854797
+Epoch 1060, Generator Loss: 31.298572540283203, Discriminator Loss: 0.12092069536447525
+Epoch 1070, Generator Loss: 30.810161590576172, Discriminator Loss: 0.13908180594444275
+Epoch 1080, Generator Loss: 30.325193405151367, Discriminator Loss: 0.14315165579319
+Epoch 1090, Generator Loss: 29.91736602783203, Discriminator Loss: 0.13629460334777832
+Epoch 1100, Generator Loss: 29.512454986572266, Discriminator Loss: 0.12578606605529785
+Epoch 1110, Generator Loss: 29.0260009765625, Discriminator Loss: 0.12788474559783936
+Epoch 1120, Generator Loss: 28.817495346069336, Discriminator Loss: 0.1509552001953125
+Epoch 1130, Generator Loss: 29.61664581298828, Discriminator Loss: 0.15785250067710876
+Epoch 1140, Generator Loss: 29.86243438720703, Discriminator Loss: 0.14904706180095673
+Epoch 1150, Generator Loss: 29.623260498046875, Discriminator Loss: 0.1330062448978424
+Epoch 1160, Generator Loss: 29.252822875976562, Discriminator Loss: 0.11916951090097427
+Epoch 1170, Generator Loss: 28.89232063293457, Discriminator Loss: 0.10808299481868744
+Epoch 1180, Generator Loss: 28.545318603515625, Discriminator Loss: 0.10674670338630676
+Epoch 1190, Generator Loss: 28.44208526611328, Discriminator Loss: 0.12121212482452393
+Epoch 1200, Generator Loss: 28.318920135498047, Discriminator Loss: 0.117672860622406
+Epoch 1210, Generator Loss: 28.36403465270996, Discriminator Loss: 0.10342193394899368
+Epoch 1220, Generator Loss: 28.53439712524414, Discriminator Loss: 0.09563401341438293
+Epoch 1230, Generator Loss: 28.669897079467773, Discriminator Loss: 0.10116367042064667
+Epoch 1240, Generator Loss: 28.798633575439453, Discriminator Loss: 0.10877638310194016
+Epoch 1250, Generator Loss: 28.883455276489258, Discriminator Loss: 0.11713022738695145
+Epoch 1260, Generator Loss: 28.938770294189453, Discriminator Loss: 0.11388369649648666
+Epoch 1270, Generator Loss: 28.92974853515625, Discriminator Loss: 0.11928137391805649
+Epoch 1280, Generator Loss: 28.756099700927734, Discriminator Loss: 0.10553031414747238
+Epoch 1290, Generator Loss: 28.43585205078125, Discriminator Loss: 0.09765395522117615
+Epoch 1300, Generator Loss: 28.58300018310547, Discriminator Loss: 0.10854379832744598
+Epoch 1310, Generator Loss: 29.134475708007812, Discriminator Loss: 0.10934963077306747
+Epoch 1320, Generator Loss: 30.000843048095703, Discriminator Loss: 0.20430846512317657
+Epoch 1330, Generator Loss: 30.02151107788086, Discriminator Loss: 0.18710367381572723
+Epoch 1340, Generator Loss: 30.20635223388672, Discriminator Loss: 0.2655330300331116
+Epoch 1350, Generator Loss: 30.528459548950195, Discriminator Loss: 0.2357277274131775
+Epoch 1360, Generator Loss: 29.91732406616211, Discriminator Loss: 0.22603914141654968
+Epoch 1370, Generator Loss: 29.38676643371582, Discriminator Loss: 0.20554348826408386
+Epoch 1380, Generator Loss: 29.03192710876465, Discriminator Loss: 0.2137376070022583
+Epoch 1390, Generator Loss: 28.81403350830078, Discriminator Loss: 0.19962982833385468
+Epoch 1400, Generator Loss: 28.614017486572266, Discriminator Loss: 0.15647175908088684
+Epoch 1410, Generator Loss: 28.24494171142578, Discriminator Loss: 0.13072466850280762
+Epoch 1420, Generator Loss: 27.86233901977539, Discriminator Loss: 0.13430562615394592
+Epoch 1430, Generator Loss: 27.905731201171875, Discriminator Loss: 0.1460193693637848
+Epoch 1440, Generator Loss: 27.731414794921875, Discriminator Loss: 0.15000644326210022
+Epoch 1450, Generator Loss: 27.702274322509766, Discriminator Loss: 0.14460603892803192
+Epoch 1460, Generator Loss: 27.57530975341797, Discriminator Loss: 0.14047493040561676
+Epoch 1470, Generator Loss: 27.530784606933594, Discriminator Loss: 0.1457507163286209
+Epoch 1480, Generator Loss: 27.463356018066406, Discriminator Loss: 0.14622412621974945
+Epoch 1490, Generator Loss: 27.191577911376953, Discriminator Loss: 0.15599685907363892
+Epoch 1500, Generator Loss: 26.889129638671875, Discriminator Loss: 0.1744174063205719
+Epoch 1510, Generator Loss: 26.791791915893555, Discriminator Loss: 0.18395619094371796
+Epoch 1520, Generator Loss: 26.691965103149414, Discriminator Loss: 0.18582060933113098
+Epoch 1530, Generator Loss: 26.52301788330078, Discriminator Loss: 0.1663810759782791
+Epoch 1540, Generator Loss: 26.349178314208984, Discriminator Loss: 0.15180519223213196
+Epoch 1550, Generator Loss: 26.235576629638672, Discriminator Loss: 0.1428234875202179
+Epoch 1560, Generator Loss: 25.9892520904541, Discriminator Loss: 0.14500188827514648
+Epoch 1570, Generator Loss: 25.749805450439453, Discriminator Loss: 0.1552184820175171
+Epoch 1580, Generator Loss: 25.63991355895996, Discriminator Loss: 0.15329864621162415
+Epoch 1590, Generator Loss: 25.802173614501953, Discriminator Loss: 0.14961817860603333
+Epoch 1600, Generator Loss: 26.253841400146484, Discriminator Loss: 0.1361888349056244
+Epoch 1610, Generator Loss: 26.491859436035156, Discriminator Loss: 0.13283690810203552
+Epoch 1620, Generator Loss: 26.691036224365234, Discriminator Loss: 0.14689168334007263
+Epoch 1630, Generator Loss: 26.826675415039062, Discriminator Loss: 0.1561788022518158
+Epoch 1640, Generator Loss: 26.832290649414062, Discriminator Loss: 0.15111666917800903
+Epoch 1650, Generator Loss: 26.972564697265625, Discriminator Loss: 0.1509590893983841
+Epoch 1660, Generator Loss: 26.935958862304688, Discriminator Loss: 0.14885848760604858
+Epoch 1670, Generator Loss: 26.919763565063477, Discriminator Loss: 0.14776362478733063
+Epoch 1680, Generator Loss: 26.829275131225586, Discriminator Loss: 0.14605088531970978
+Epoch 1690, Generator Loss: 26.844120025634766, Discriminator Loss: 0.14855331182479858
+Epoch 1700, Generator Loss: 26.81254005432129, Discriminator Loss: 0.15105724334716797
+Epoch 1710, Generator Loss: 26.75333023071289, Discriminator Loss: 0.15174518525600433
+Epoch 1720, Generator Loss: 26.71861457824707, Discriminator Loss: 0.15048563480377197
+Epoch 1730, Generator Loss: 26.675765991210938, Discriminator Loss: 0.1467064470052719
+Epoch 1740, Generator Loss: 26.694143295288086, Discriminator Loss: 0.1477656364440918
+Epoch 1750, Generator Loss: 26.696453094482422, Discriminator Loss: 0.14585916697978973
+Epoch 1760, Generator Loss: 26.72494888305664, Discriminator Loss: 0.1421123445034027
+Epoch 1770, Generator Loss: 26.864999771118164, Discriminator Loss: 0.18370723724365234
+Epoch 1780, Generator Loss: 26.92908477783203, Discriminator Loss: 0.19483625888824463
+Epoch 1790, Generator Loss: 26.5819091796875, Discriminator Loss: 0.21793527901172638
+Epoch 1800, Generator Loss: 26.60016441345215, Discriminator Loss: 0.2198539674282074
+Epoch 1810, Generator Loss: 26.21804428100586, Discriminator Loss: 0.19800227880477905
+Epoch 1820, Generator Loss: 26.15760040283203, Discriminator Loss: 0.19543027877807617
+Epoch 1830, Generator Loss: 26.335926055908203, Discriminator Loss: 0.19159749150276184
+Epoch 1840, Generator Loss: 26.527851104736328, Discriminator Loss: 0.2060265839099884
+Epoch 1850, Generator Loss: 26.56667137145996, Discriminator Loss: 0.21853898465633392
+Epoch 1860, Generator Loss: 26.594676971435547, Discriminator Loss: 0.23632188141345978
+Epoch 1870, Generator Loss: 26.400436401367188, Discriminator Loss: 0.23529189825057983
+Epoch 1880, Generator Loss: 26.20808219909668, Discriminator Loss: 0.22271674871444702
+Epoch 1890, Generator Loss: 26.126022338867188, Discriminator Loss: 0.2162686586380005
+Epoch 1900, Generator Loss: 26.38686752319336, Discriminator Loss: 0.22338661551475525
+Epoch 1910, Generator Loss: 26.520801544189453, Discriminator Loss: 0.24469652771949768
+Epoch 1920, Generator Loss: 25.992191314697266, Discriminator Loss: 0.22459185123443604
+Epoch 1930, Generator Loss: 26.009193420410156, Discriminator Loss: 0.21649032831192017
+Epoch 1940, Generator Loss: 25.784099578857422, Discriminator Loss: 0.1928955316543579
+Epoch 1950, Generator Loss: 25.715518951416016, Discriminator Loss: 0.19310253858566284
+Epoch 1960, Generator Loss: 24.929683685302734, Discriminator Loss: 0.24113205075263977
+Epoch 1970, Generator Loss: 25.769039154052734, Discriminator Loss: 0.1884274184703827
+Epoch 1980, Generator Loss: 25.607887268066406, Discriminator Loss: 0.21494068205356598
+Epoch 1990, Generator Loss: 25.77151870727539, Discriminator Loss: 0.21043777465820312
+Epoch 2000, Generator Loss: 25.545156478881836, Discriminator Loss: 0.17579594254493713
+Epoch 2010, Generator Loss: 25.648731231689453, Discriminator Loss: 0.19022658467292786
+Epoch 2020, Generator Loss: 25.396535873413086, Discriminator Loss: 0.19104492664337158
+Epoch 2030, Generator Loss: 25.281496047973633, Discriminator Loss: 0.16891156136989594
+Epoch 2040, Generator Loss: 25.401941299438477, Discriminator Loss: 0.15135517716407776
+Epoch 2050, Generator Loss: 25.0433349609375, Discriminator Loss: 0.12933683395385742
+Epoch 2060, Generator Loss: 25.249446868896484, Discriminator Loss: 0.11626583337783813
+Epoch 2070, Generator Loss: 25.260807037353516, Discriminator Loss: 0.12127099931240082
+Epoch 2080, Generator Loss: 25.555971145629883, Discriminator Loss: 0.12573692202568054
+Epoch 2090, Generator Loss: 25.44972801208496, Discriminator Loss: 0.13228839635849
+Epoch 2100, Generator Loss: 25.60904312133789, Discriminator Loss: 0.13532979786396027
+Epoch 2110, Generator Loss: 25.417743682861328, Discriminator Loss: 0.11462602764368057
+Epoch 2120, Generator Loss: 25.923351287841797, Discriminator Loss: 0.10091401636600494
+Epoch 2130, Generator Loss: 26.184818267822266, Discriminator Loss: 0.10335391759872437
+Epoch 2140, Generator Loss: 26.23794937133789, Discriminator Loss: 0.13499274849891663
+Epoch 2150, Generator Loss: 26.331748962402344, Discriminator Loss: 0.1619594395160675
+Epoch 2160, Generator Loss: 26.238285064697266, Discriminator Loss: 0.15963226556777954
+Epoch 2170, Generator Loss: 26.199939727783203, Discriminator Loss: 0.15317869186401367
+Epoch 2180, Generator Loss: 26.221412658691406, Discriminator Loss: 0.14829564094543457
+Epoch 2190, Generator Loss: 26.200443267822266, Discriminator Loss: 0.137162983417511
+Epoch 2200, Generator Loss: 26.105693817138672, Discriminator Loss: 0.12408988177776337
+Epoch 2210, Generator Loss: 26.02208709716797, Discriminator Loss: 0.11099854111671448
+Epoch 2220, Generator Loss: 26.04821014404297, Discriminator Loss: 0.10559491813182831
+Epoch 2230, Generator Loss: 26.18562126159668, Discriminator Loss: 0.10530764609575272
+Epoch 2240, Generator Loss: 26.417369842529297, Discriminator Loss: 0.10869592428207397
+Epoch 2250, Generator Loss: 26.536422729492188, Discriminator Loss: 0.11037032306194305
+Epoch 2260, Generator Loss: 26.648162841796875, Discriminator Loss: 0.10740520060062408
+Epoch 2270, Generator Loss: 26.818912506103516, Discriminator Loss: 0.11430917680263519
+Epoch 2280, Generator Loss: 26.912395477294922, Discriminator Loss: 0.11854870617389679
+Epoch 2290, Generator Loss: 26.83062744140625, Discriminator Loss: 0.12587043642997742
+Epoch 2300, Generator Loss: 26.839420318603516, Discriminator Loss: 0.13091973960399628
+Epoch 2310, Generator Loss: 26.773311614990234, Discriminator Loss: 0.13072146475315094
+Epoch 2320, Generator Loss: 26.740032196044922, Discriminator Loss: 0.1334991455078125
+Epoch 2330, Generator Loss: 26.77825164794922, Discriminator Loss: 0.1368435025215149
+Epoch 2340, Generator Loss: 26.813690185546875, Discriminator Loss: 0.14081814885139465
+Epoch 2350, Generator Loss: 26.96030044555664, Discriminator Loss: 0.13616006076335907
+Epoch 2360, Generator Loss: 26.901668548583984, Discriminator Loss: 0.12920577824115753
+Epoch 2370, Generator Loss: 27.071657180786133, Discriminator Loss: 0.12846319377422333
+Epoch 2380, Generator Loss: 27.238861083984375, Discriminator Loss: 0.13857662677764893
+Epoch 2390, Generator Loss: 27.54351043701172, Discriminator Loss: 0.14093557000160217
+Epoch 2400, Generator Loss: 27.740877151489258, Discriminator Loss: 0.14668689668178558
+Epoch 2410, Generator Loss: 27.88983154296875, Discriminator Loss: 0.14546938240528107
+Epoch 2420, Generator Loss: 27.87189483642578, Discriminator Loss: 0.1203635185956955
+Epoch 2430, Generator Loss: 28.186912536621094, Discriminator Loss: 0.11362125724554062
+Epoch 2440, Generator Loss: 27.637897491455078, Discriminator Loss: 0.11521932482719421
+Epoch 2450, Generator Loss: 27.831087112426758, Discriminator Loss: 0.13171479105949402
+Epoch 2460, Generator Loss: 28.22021484375, Discriminator Loss: 0.13954389095306396
+Epoch 2470, Generator Loss: 27.513187408447266, Discriminator Loss: 0.1122494637966156
+Epoch 2480, Generator Loss: 27.130813598632812, Discriminator Loss: 0.10252729803323746
+Epoch 2490, Generator Loss: 26.865623474121094, Discriminator Loss: 0.09835588186979294
+Epoch 2500, Generator Loss: 26.76233673095703, Discriminator Loss: 0.10013771057128906
+Epoch 2510, Generator Loss: 26.702220916748047, Discriminator Loss: 0.09624162316322327
+Epoch 2520, Generator Loss: 26.77322006225586, Discriminator Loss: 0.10168225318193436
+Epoch 2530, Generator Loss: 26.949186325073242, Discriminator Loss: 0.10602413862943649
+Epoch 2540, Generator Loss: 27.144493103027344, Discriminator Loss: 0.10347429662942886
+Epoch 2550, Generator Loss: 27.23303985595703, Discriminator Loss: 0.09590039402246475
+Epoch 2560, Generator Loss: 27.25739288330078, Discriminator Loss: 0.09837514907121658
+Epoch 2570, Generator Loss: 27.225996017456055, Discriminator Loss: 0.09839901328086853
+Epoch 2580, Generator Loss: 27.235368728637695, Discriminator Loss: 0.09489256143569946
+Epoch 2590, Generator Loss: 27.20273780822754, Discriminator Loss: 0.09526657313108444
+Epoch 2600, Generator Loss: 27.198698043823242, Discriminator Loss: 0.09153151512145996
+Epoch 2610, Generator Loss: 27.242572784423828, Discriminator Loss: 0.0932256430387497
+Epoch 2620, Generator Loss: 27.211673736572266, Discriminator Loss: 0.0903250128030777
+Epoch 2630, Generator Loss: 27.155410766601562, Discriminator Loss: 0.09072987735271454
+Epoch 2640, Generator Loss: 27.18948745727539, Discriminator Loss: 0.09185048192739487
+Epoch 2650, Generator Loss: 27.093544006347656, Discriminator Loss: 0.08925896883010864
+Epoch 2660, Generator Loss: 27.15341567993164, Discriminator Loss: 0.08957317471504211
+Epoch 2670, Generator Loss: 27.286251068115234, Discriminator Loss: 0.08700404316186905
+Epoch 2680, Generator Loss: 27.38080596923828, Discriminator Loss: 0.09239627420902252
+Epoch 2690, Generator Loss: 27.387088775634766, Discriminator Loss: 0.09906117618083954
+Epoch 2700, Generator Loss: 27.327194213867188, Discriminator Loss: 0.0991029143333435
+Epoch 2710, Generator Loss: 27.32513427734375, Discriminator Loss: 0.09468022733926773
+Epoch 2720, Generator Loss: 27.19327735900879, Discriminator Loss: 0.08862566947937012
+Epoch 2730, Generator Loss: 27.24795150756836, Discriminator Loss: 0.0892772376537323
+Epoch 2740, Generator Loss: 27.249710083007812, Discriminator Loss: 0.08676023781299591
+Epoch 2750, Generator Loss: 27.272228240966797, Discriminator Loss: 0.08554323017597198
+Epoch 2760, Generator Loss: 27.38237953186035, Discriminator Loss: 0.09054451435804367
+Epoch 2770, Generator Loss: 27.3690185546875, Discriminator Loss: 0.08983199298381805
+Epoch 2780, Generator Loss: 27.48537826538086, Discriminator Loss: 0.09200983494520187
+Epoch 2790, Generator Loss: 27.670740127563477, Discriminator Loss: 0.09465131163597107
+Epoch 2800, Generator Loss: 27.598068237304688, Discriminator Loss: 0.09585736691951752
+Epoch 2810, Generator Loss: 27.75786781311035, Discriminator Loss: 0.09022048115730286
+Epoch 2820, Generator Loss: 27.84737205505371, Discriminator Loss: 0.09078071266412735
+Epoch 2830, Generator Loss: 27.74177360534668, Discriminator Loss: 0.09420956671237946
+Epoch 2840, Generator Loss: 27.912513732910156, Discriminator Loss: 0.0997006893157959
+Epoch 2850, Generator Loss: 27.951711654663086, Discriminator Loss: 0.09708444774150848
+Epoch 2860, Generator Loss: 27.80646514892578, Discriminator Loss: 0.10128603130578995
+Epoch 2870, Generator Loss: 27.801982879638672, Discriminator Loss: 0.1072767898440361
+Epoch 2880, Generator Loss: 27.845867156982422, Discriminator Loss: 0.10587143898010254
+Epoch 2890, Generator Loss: 27.611644744873047, Discriminator Loss: 0.11397099494934082
+Epoch 2900, Generator Loss: 27.53252410888672, Discriminator Loss: 0.1163739562034607
+Epoch 2910, Generator Loss: 27.413978576660156, Discriminator Loss: 0.12184065580368042
+Epoch 2920, Generator Loss: 27.899349212646484, Discriminator Loss: 0.12382246553897858
+Epoch 2930, Generator Loss: 28.210634231567383, Discriminator Loss: 0.09611301124095917
+Epoch 2940, Generator Loss: 28.317920684814453, Discriminator Loss: 0.08243345469236374
+Epoch 2950, Generator Loss: 28.620838165283203, Discriminator Loss: 0.10044613480567932
+Epoch 2960, Generator Loss: 28.44533920288086, Discriminator Loss: 0.10340756177902222
+Epoch 2970, Generator Loss: 27.9869384765625, Discriminator Loss: 0.10798680782318115
+Epoch 2980, Generator Loss: 28.028297424316406, Discriminator Loss: 0.11800770461559296
+^CTraceback (most recent call last):
+  File "<stdin>", line 1, in <module>
+  File "/proj/yunligrp/users/chenweit/DL-unmix/src/deconvolution/utils.py", line 9, in run_deconvolution
+    return case[method](**kwargs)
+  File "/proj/yunligrp/users/chenweit/DL-unmix/src/deconvolution/gan.py", line 177, in run_DLunmix_GAN
+    optimizer_G.step()
+  File "/nas/longleaf/home/chenweit/.local/lib/python3.9/site-packages/torch/optim/optimizer.py", line 484, in wrapper
+    out = func(*args, **kwargs)
+  File "/nas/longleaf/home/chenweit/.local/lib/python3.9/site-packages/torch/optim/optimizer.py", line 89, in _use_grad
+    ret = func(self, *args, **kwargs)
+  File "/nas/longleaf/home/chenweit/.local/lib/python3.9/site-packages/torch/optim/adam.py", line 226, in step
+    adam(
+  File "/nas/longleaf/home/chenweit/.local/lib/python3.9/site-packages/torch/optim/optimizer.py", line 161, in maybe_fallback
+    return func(*args, **kwargs)
+  File "/nas/longleaf/home/chenweit/.local/lib/python3.9/site-packages/torch/optim/adam.py", line 766, in adam
+    func(
+  File "/nas/longleaf/home/chenweit/.local/lib/python3.9/site-packages/torch/optim/adam.py", line 431, in _single_tensor_adam
+    denom = (exp_avg_sq.sqrt() / bias_correction2_sqrt).add_(eps)
+  File "/nas/longleaf/rhel8/apps/python/3.9.6/lib/python3.9/site-packages/rpy2/rinterface.py", line 92, in _sigint_handler
+    raise KeyboardInterrupt()
+KeyboardInterrupt
+>>> 
+[7]+  Stopped                 python
+]0;chenweit@longleaf-login2:/proj/yunligrp/users/chenweit/DL-unmix[chenweit@longleaf-login2 DL-unmix]$ bash script/run_tasic_yao.sh --method=gan --batch_size=10 --seed=42
+ethod=gan --batch_size=50 --seed=88
+bash script/run_tasic_yao.sh --method=gan --batch_size=100 --seed=666
+Submitted batch job 59970933
+]0;chenweit@longleaf-login2:/proj/yunligrp/users/chenweit/DL-unmix[chenweit@longleaf-login2 DL-unmix]$ bash script/run_tasic_yao.sh --method=gan --batch_size=50 --seed=88
+Submitted batch job 59970934
+]0;chenweit@longleaf-login2:/proj/yunligrp/users/chenweit/DL-unmix[chenweit@longleaf-login2 DL-unmix]$ bash script/run_tasic_yao.sh --method=gan --batch_size=100 --seed=666
+Submitted batch job 59970935
+]0;chenweit@longleaf-login2:/proj/yunligrp/users/chenweit/DL-unmix[chenweit@longleaf-login2 DL-unmix]$ squeue -u chenweit
+             JOBID PARTITION     NAME     USER ST       TIME  NODES NODELIST(REASON)
+          59970933   l40-gpu   poetry chenweit  R       0:02      1 g181001
+          59970934   l40-gpu   poetry chenweit  R       0:02      1 g181001
+          59970935   l40-gpu   poetry chenweit  R       0:02      1 g181003
+]0;chenweit@longleaf-login2:/proj/yunligrp/users/chenweit/DL-unmix[chenweit@longleaf-login2 DL-unmix]$ bash script/run_tasic_yao.sh --method=bmind
+Submitted batch job 59970937
+]0;chenweit@longleaf-logi

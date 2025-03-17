@@ -6,8 +6,6 @@ import pandas as pd
 from tqdm import tqdm
 import requests
 from bs4 import BeautifulSoup
-import scanpy as sc
-import gzip
 import scipy.sparse as ss
 import h5py
 from multiprocessing import Pool
@@ -43,7 +41,9 @@ def download_tasic_2018(out_dir: str = 'data/raw'):
             shutil.copyfileobj(f_in, f_out)
     os.remove(out_file)
 
-def preprocess_tasic_2018(in_dir: str = 'data/raw', out_dir: str = 'data/processed', save_file: bool = True):
+def preprocess_tasic_2018(in_dir: str = 'data/raw',
+    out_dir: str = 'data/processed/mouse_brain',
+    overwrite: bool = False):
     """
     Preprocess Tasic et al. 2018 data.
     """
@@ -51,8 +51,8 @@ def preprocess_tasic_2018(in_dir: str = 'data/raw', out_dir: str = 'data/process
     if not os.path.exists(os.path.join(in_dir, 'tasic2018',"count_matrix.csv")):
         download_tasic_2018(in_dir)
     # If processed data exists, load it
-    if os.path.exists(os.path.join(out_dir, "tasic2018_count.tsv")):
-        return pd.read_csv(os.path.join(out_dir, "tasic2018_count.tsv"), sep='\t'), pd.read_csv(os.path.join(out_dir, "tasic2018_metadata.tsv"), sep='\t')
+    if os.path.exists(os.path.join(out_dir, "tasic2018_count.tsv")) and not overwrite:
+        return pd.read_csv(os.path.join(out_dir, "tasic2018_count.tsv"), sep='\t',index_col=0), pd.read_csv(os.path.join(out_dir, "tasic2018_metadata.tsv"), sep='\t')
     # Load the data
     data = pd.concat([chunk for chunk in tqdm(pd.read_csv(os.path.join(in_dir,'tasic2018',"count_matrix.csv"), chunksize=1000, index_col=0), desc='Loading data')])
     
@@ -77,9 +77,9 @@ def preprocess_tasic_2018(in_dir: str = 'data/raw', out_dir: str = 'data/process
     meta.columns = ['cell_name', 'cell_type', 'donor']
 
     # Save the data
-    if save_file:
-        subset.to_csv(os.path.join(out_dir, "tasic2018_count.tsv"), sep='\t', index=False)
-        meta.to_csv(os.path.join(out_dir, "tasic2018_metadata.tsv"), sep='\t',index=False)
+    subset.to_csv(os.path.join(out_dir, "tasic2018_count.tsv"), sep='\t', index=True)
+    meta.to_csv(os.path.join(out_dir, "tasic2018_metadata.tsv"), sep='\t',index=False)
+    subset.index.to_series().to_csv(os.path.join(out_dir, "tasic2018_genes.tsv"), sep='\t', index=False)
 
     return subset, meta
 
@@ -107,14 +107,19 @@ def download_yao_2021(out_dir: str = 'data/raw'):
 
 
 
-def preprocess_yao_2021(in_dir: str = 'data/raw', out_dir: str = 'data/processed', save_file: bool = True):
+def preprocess_yao_2021(in_dir: str = 'data/raw',
+    out_dir: str = 'data/processed/mouse_brain',
+    overwrite: bool = False):
     """
     Preprocess Yao et al. 2021 data.
     """
-    # If raw data does not exist, download it
     f_name = os.path.join(in_dir, 'yao2021', "smrt.h5")
+    # If raw data does not exist, download it
     if not os.path.exists(f_name):
         download_yao_2021(in_dir)
+    # If processed data exists, load it
+    if os.path.exists(os.path.join(out_dir, "yao2021_count.tsv")) and not overwrite:
+        return pd.read_csv(os.path.join(out_dir, "yao2021_count.tsv"), sep='\t',index_col=0), pd.read_csv(os.path.join(out_dir, "yao2021_metadata.tsv"), sep='\t')
     def extract_sparse_mat(h5f, data_path):
         print(f"Extracting data from {data_path}")
         data = h5f[data_path]
@@ -133,14 +138,63 @@ def preprocess_yao_2021(in_dir: str = 'data/raw', out_dir: str = 'data/processed
     h5f = h5py.File(f_name, 'r')
     exons = extract_sparse_mat(h5f, '/data/exon/')
 
+    genes = h5f['gene_names'][:].astype(str)
+    samples = h5f['sample_names'][:].astype(str)
+    # Create DataFrame with genes as index and samples as columns
+    df = pd.DataFrame.sparse.from_spmatrix(exons, index=samples, columns=genes)
+
     # Load metadata
     # Load metadata from tar file
     tar_file = os.path.join(in_dir, 'yao2021', 'CTX_Hip_anno_SSv4.csv.tar')
     meta = pd.read_csv(tar_file, compression='tar')
 
+    # Remove cells included in Tasic2018
+    meta = meta[meta['tasic18_subclass_label'] == 'absent']
+    donor_counts = meta['donor_label'].value_counts()
+
+    # Filter for cell types of interest and rename them to match Tasic2018 naming
+    class_mapping = {
+        'L2/3 IT CTX': 'L2/3 IT',
+        'L2/3 IT PPP': 'L2/3 IT',
+        'L2/3 IT ENTl': 'L2/3 IT',
+        'L2/3 IT RHP': 'L2/3 IT',
+        'L2 IT ENTl': 'L2/3 IT',
+        'L2 IT ENTm': 'L2/3 IT',
+        'L6 CT CTX': 'L6 CT',
+        'L6 IT CTX': 'L6 IT',
+        'L6 IT ENTl': 'L6 IT',
+        'Astro': 'Astro',
+        'Oligo': 'Oligo',
+        'Lamp5': 'Lamp5',
+        'Pvalb': 'Pvalb',
+        'Sst': 'Sst',
+        'Vip': 'Vip'
+    }
+
+    # Apply mapping and filter
+    meta['cell_subclass'] = meta['subclass_label'].map(class_mapping)
+    meta = meta.dropna(subset=['cell_subclass'])
+
+    # Get common cells between metadata and expression data
+    common_cells = df.index.intersection(meta['exp_component_name'])
+
+    # Subset both datasets
+    meta = meta[meta['exp_component_name'].isin(common_cells)]
+    df = df.loc[common_cells]
+
+    # Filter genes included in Tasic2018
+    tasic_genes = pd.read_csv(os.path.join(out_dir, "tasic2018_genes.tsv"), sep='\t')['0']
+    df = df.loc[:, tasic_genes]
     
+    df = df.sparse.to_dense().astype(int)
 
-    # Save the preprocessed data if requested
+    # Rename columns to match requirements
+    meta = meta.loc[:, ['exp_component_name', 'cell_subclass', 'donor_label']]
+    meta = meta[meta['exp_component_name'].isin(df.index)]
+    meta.columns = ['cell_name', 'cell_type', 'donor']
 
-    return exons
+    df.to_csv(os.path.join(out_dir, "yao2021_count.tsv"), sep='\t')
+    meta.to_csv(os.path.join(out_dir, "yao2021_metadata.tsv"), sep='\t', index=False)
+
+    return df, meta
 
