@@ -1,4 +1,5 @@
 PYTHONPATH=.
+
 # Tasic-yao experiments
 bash script/run_tasic_yao.sh --method=bmind
 bash script/run_tasic_yao.sh --method=gan --batch_size=10 --seed=42
