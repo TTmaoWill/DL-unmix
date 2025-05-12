@@ -15,7 +15,7 @@ if [ -z "$method" ]; then
 fi
 
 case "$method" in
-    bmind|cmind)
+    bmind)
         sbatch -N 1 -n 15 --mem=100g -t 24:00:00 \
             -o data/results/mouse_brain/log/${method}_%j.log \
             -e data/results/mouse_brain/log/${method}_%j.err \
