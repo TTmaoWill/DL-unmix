@@ -11,6 +11,9 @@ bash script/run_tasic_yao.sh --method=gp --batch_size=1 --seed=1
 bash script/run_tasic_yao.sh --method=gp --batch_size=10 --seed=42
 bash script/run_tasic_yao.sh --method=gp --batch_size=20 --seed=88
 
+bash script/run_tasic_yao.sh --method=gp_nb --batch_size=1 --seed=42
+
+
 # Tasic-yao evaluation
 poetry run python script/compute_scores.py \
     --pred_dir data/results/mouse_brain/pred/ \

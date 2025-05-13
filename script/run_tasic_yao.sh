@@ -21,7 +21,7 @@ case "$method" in
             -e data/results/mouse_brain/log/${method}_%j.err \
             poetry run python script/tasic2018_yao2021_experiment.py "$@"
         ;;
-    gan|gp)
+    gan|gp|gp_nb)
         sbatch -n 1 --mem=40g -t 24:00:00 -p l40-gpu --qos=gpu_access --gres=gpu:1 \
             -o data/results/mouse_brain/log/${method}_%j.log \
             -e data/results/mouse_brain/log/${method}_%j.err \
