@@ -223,17 +223,14 @@ def preprocess_yazar_2022(in_dir: str = 'data/raw',
     
     # If raw data does not exist, download it
     if not os.path.exists(os.path.join(in_dir, 'yazar2022', "count_adata.h5ad")):
-        print("Downloading data", flush=True)
         download_yazar_2018(in_dir)
         
     # If processed data exists, load it
     if os.path.exists(os.path.join(out_dir, "yazar2022_count.tsv")) and not overwrite:
-        print("Getting already processed data", flush=True)
         return pd.read_csv(os.path.join(out_dir, "yazar2022_count.tsv"), sep='\t',index_col=0), \
                pd.read_csv(os.path.join(out_dir, "yazar2022_metadata.tsv"), sep='\t')
     
     # Load the data
-    print("Preprocessing data", flush=True)
     data = sc.read_h5ad(os.path.join(in_dir,'yazar2022',"count_adata.h5ad"))
     
     # Filter genes not expressed in at least 10 cells
