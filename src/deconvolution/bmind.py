@@ -1,9 +1,9 @@
 import pandas as pd
 import rpy2.robjects as ro
-# from rpy2.robjects import pandas2ri
+from rpy2.robjects import pandas2ri
 
 # Activate the automatic conversion of pandas objects to R objects
-# pandas2ri.activate()
+pandas2ri.activate()
 
 def run_bMIND(target_dir: str, sc_dir: str, out_dir: str):
     """Runs the bMIND R function with the provided directories.
