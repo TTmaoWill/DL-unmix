@@ -44,16 +44,20 @@ def create_pb(
 		os.makedirs(out_dir, exist_ok=True)
 		# If output exists, just run get_pb
 		if os.path.exists(f"{out_dir}/{prefix}_pbs.tsv") and not force:
-			print(f"Output files already exist in {out_dir}. Loading existing files.")
+			print(f"Output files already exist in {out_dir}. Loading existing files.", flush=True)
 			return get_pb(prefix, out_dir)
+
 	# Validate input dimensions
 	if not isinstance(expression_matrix, pd.DataFrame):
 		raise ValueError("expression_matrix must be a pandas DataFrame.")
+
 	# Assign gene and cell names if provided
 	if gene_names:
 		expression_matrix.index = expression_matrix[gene_names]
+  
 	if cell_names:
 		expression_matrix.columns = expression_matrix[cell_names]
+  
 	# Construct metafile if not provided
 	if metafile is None:
 		if cell_names is None or cell_types is None or donors is None:
@@ -63,18 +67,22 @@ def create_pb(
 			"cell_type": cell_types,
 			"donor": donors
 		})
+  
 	# Merge expression_matrix with metadata
 	merged = expression_matrix.T.join(metafile.set_index("cell_name"), how="inner")
-	print(f"Matched data: {merged.shape[0]} cells, {len(merged['donor'].unique())} donors, {expression_matrix.shape[0]} genes.")
+	print(f"Matched data: {merged.shape[0]} cells, {len(merged['donor'].unique())} donors, {expression_matrix.shape[0]} genes.", flush=True)
+ 
 	# Check donor presence for by-id mode
 	if mode == "by-id" and "donor" not in metafile.columns:
 		raise ValueError("Donor information is required for 'by-id' mode.")
+
 	# Set n_cells for by-id mode
 	if mode == "by-id":
 		donors = merged["donor"].unique()
 		n_cells = merged["donor"].value_counts().loc[donors].values
 	else:
 		donors = range(len(n_cells))
+  
 	# Initialize outputs
 	pbs = cts = frac = pd.DataFrame()
 	# Generate pseudobulk samples
@@ -119,15 +127,15 @@ def create_pb(
 
 	# filter genes expressed in less than qc_threshold fraction of pseudobulks
 	frac = frac.T
-	print(pbs.shape)
-	print((pbs > 0).mean())
+	print(pbs.shape, flush=True)
+	print((pbs > 0).mean(), flush=True)
 	if qc_threshold > 0:
 		gene_qc = pbs.index[(pbs > 0).mean(axis=1) > qc_threshold]
-		print(gene_qc)
+		print(gene_qc, flush=True)
 		pbs = pbs.loc[gene_qc]
 		cts = cts.loc[[f"{gene}_{ct}" for gene in gene_qc for ct in unique_cell_types]]
 			# print out the number of genes after filtering
-		print(f"Number of genes after QC: {len(gene_qc)}")
+		print(f"Number of genes after QC: {len(gene_qc)}", flush=True)
 
 	# Save outputs
 	if out_dir:
@@ -151,7 +159,7 @@ def get_pb(prefix, out_dir="output"):
 	pbs = pd.read_csv(f"{out_dir}/{prefix}_pbs.tsv", sep="\t", index_col=0)
 	cts = pd.read_csv(f"{out_dir}/{prefix}_cts.tsv", sep="\t", index_col=0)
 	frac = pd.read_csv(f"{out_dir}/{prefix}_frac.tsv", sep="\t", index_col=0)
-	print(f"Number of genes after QC: {pbs.shape[0]}")
+	print(f"Number of genes after QC: {pbs.shape[0]}", flush=True)
 	return pbs, cts, frac
 
 def save_pbs(pbs, cts, frac, out_dir="output", prefix="",gene_list=None):

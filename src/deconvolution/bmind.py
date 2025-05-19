@@ -1,9 +1,9 @@
 import pandas as pd
 import rpy2.robjects as ro
-from rpy2.robjects import pandas2ri
+# from rpy2.robjects import pandas2ri
 
 # Activate the automatic conversion of pandas objects to R objects
-pandas2ri.activate()
+# pandas2ri.activate()
 
 def run_bMIND(target_dir: str, sc_dir: str, out_dir: str):
     """Runs the bMIND R function with the provided directories.
@@ -18,6 +18,9 @@ def run_bMIND(target_dir: str, sc_dir: str, out_dir: str):
     # Define the R function
     r_code = """
     function(target_dir, sc_dir, out_dir) {
+        lib_path <- '/proj/yunligrp/users/djpharr/library'
+        .libPaths(lib_path)
+
         library(MIND)
         library(tidyverse)
         library(data.table)
@@ -27,7 +30,8 @@ def run_bMIND(target_dir: str, sc_dir: str, out_dir: str):
         column_to_rownames('...1')
         sc_ref <- read_tsv(paste0(sc_dir, '_count.tsv'),col_names = TRUE) %>%
             column_to_rownames('...1')
-        sc_meta <- read_tsv(paste0(sc_dir, '_metadata.tsv'), col_names = TRUE) 
+        sc_meta <- read_tsv(paste0(sc_dir, '_metadata.tsv'), col_names = TRUE) %>%
+                    column_to_rownames(var = colnames(.)[1])
         sc_ref <- t(sc_ref)
     
         colnames(sc_meta) <- c('sample_name', 'cell_type', 'sample')
