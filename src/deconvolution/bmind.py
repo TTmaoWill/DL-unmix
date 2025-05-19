@@ -18,9 +18,6 @@ def run_bMIND(target_dir: str, sc_dir: str, out_dir: str):
     # Define the R function
     r_code = """
     function(target_dir, sc_dir, out_dir) {
-        lib_path <- '/proj/yunligrp/users/djpharr/library'
-        .libPaths(lib_path)
-
         library(MIND)
         library(tidyverse)
         library(data.table)
