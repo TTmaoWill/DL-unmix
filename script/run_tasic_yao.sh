@@ -1,4 +1,5 @@
-PYTHONPATH=/proj/yunligrp/users/chenweit/DL-unmix
+export PYTHONPATH=/home/users/chenweit/DL-unmix
+export R_HOME=/usr/local/4.4.0/lib/R
 
 method=""
 for arg in "$@"; do
@@ -22,7 +23,7 @@ case "$method" in
             poetry run python script/tasic2018_yao2021_experiment.py "$@"
         ;;
     gan|gp|gp_nb)
-        sbatch -n 1 --mem=40g -t 24:00:00 -p l40-gpu --qos=gpu_access --gres=gpu:1 \
+        sbatch -n 1 --mem=40g -t 24:00:00 -p bat_gpu --qos=gpu_access \
             -o data/results/mouse_brain/log/${method}_%j.log \
             -e data/results/mouse_brain/log/${method}_%j.err \
             poetry run python script/tasic2018_yao2021_experiment.py "$@"

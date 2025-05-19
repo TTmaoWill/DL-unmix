@@ -6,6 +6,7 @@ import src.deconvolution
 import src.preprocess
 from src.preprocess.download_preprocess_data import *
 from src.preprocess.generate_pseudobulk import *
+from src.deconvolution import utils
 
 def parse_key_value_args(args):
     kwargs = {}
@@ -58,7 +59,8 @@ def main():
                prefix="tasic2018_common_genes",
                gene_list=common_genes)
 
-    src.deconvolution.utils.run_deconvolution(
+
+    utils.run_deconvolution(
         method,
         target_dir='data/processed/mouse_brain/tasic2018_common_genes',
         sc_dir='data/processed/mouse_brain/yao2021_common_genes',
