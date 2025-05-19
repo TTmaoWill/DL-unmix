@@ -27,7 +27,8 @@ def run_bMIND(target_dir: str, sc_dir: str, out_dir: str):
         column_to_rownames('...1')
         sc_ref <- read_tsv(paste0(sc_dir, '_count.tsv'),col_names = TRUE) %>%
             column_to_rownames('...1')
-        sc_meta <- read_tsv(paste0(sc_dir, '_metadata.tsv'), col_names = TRUE) 
+        sc_meta <- read_tsv(paste0(sc_dir, '_metadata.tsv'), col_names = TRUE) %>%
+                    column_to_rownames(var = colnames(.)[1])
         sc_ref <- t(sc_ref)
     
         colnames(sc_meta) <- c('sample_name', 'cell_type', 'sample')

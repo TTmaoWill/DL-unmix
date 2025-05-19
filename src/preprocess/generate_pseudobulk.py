@@ -46,14 +46,18 @@ def create_pb(
 		if os.path.exists(f"{out_dir}/{prefix}_pbs.tsv") and not force:
 			print(f"Output files already exist in {out_dir}. Loading existing files.")
 			return get_pb(prefix, out_dir)
+
 	# Validate input dimensions
 	if not isinstance(expression_matrix, pd.DataFrame):
 		raise ValueError("expression_matrix must be a pandas DataFrame.")
+
 	# Assign gene and cell names if provided
 	if gene_names:
 		expression_matrix.index = expression_matrix[gene_names]
+  
 	if cell_names:
 		expression_matrix.columns = expression_matrix[cell_names]
+  
 	# Construct metafile if not provided
 	if metafile is None:
 		if cell_names is None or cell_types is None or donors is None:
@@ -63,18 +67,22 @@ def create_pb(
 			"cell_type": cell_types,
 			"donor": donors
 		})
+  
 	# Merge expression_matrix with metadata
 	merged = expression_matrix.T.join(metafile.set_index("cell_name"), how="inner")
 	print(f"Matched data: {merged.shape[0]} cells, {len(merged['donor'].unique())} donors, {expression_matrix.shape[0]} genes.")
+ 
 	# Check donor presence for by-id mode
 	if mode == "by-id" and "donor" not in metafile.columns:
 		raise ValueError("Donor information is required for 'by-id' mode.")
+
 	# Set n_cells for by-id mode
 	if mode == "by-id":
 		donors = merged["donor"].unique()
 		n_cells = merged["donor"].value_counts().loc[donors].values
 	else:
 		donors = range(len(n_cells))
+  
 	# Initialize outputs
 	pbs = cts = frac = pd.DataFrame()
 	# Generate pseudobulk samples

@@ -18,7 +18,7 @@ def download_tasic_2018(out_dir: str = 'data/raw'):
     """
     # Download Tasic et al. 2018 exon counts data from GEO
     url = "https://www.ncbi.nlm.nih.gov/geo/download/?acc=GSE115746&format=file&file=GSE115746%5Fcells%5Fexon%5Fcounts%2Ecsv%2Egz"
-    out_file = os.path.join(dir,'tasic2018',"count_matrix.csv.gz")
+    out_file = os.path.join(out_dir,'tasic2018',"count_matrix.csv.gz")
     urllib.request.urlretrieve(url, out_file)
 
     # Unzip the file
@@ -32,7 +32,7 @@ def download_tasic_2018(out_dir: str = 'data/raw'):
     # Download Tasic et al. 2018 metadata from GEO
 
     url = "https://www.ncbi.nlm.nih.gov/geo/download/?acc=GSE115746&format=file&file=GSE115746%5Fcomplete%5Fmetadata%5F28706%2Dcells%2Ecsv%2Egz"
-    out_file = os.path.join(dir,'tasic2018',"metadata.csv.gz")
+    out_file = os.path.join(out_dir,'tasic2018',"metadata.csv.gz")
     urllib.request.urlretrieve(url, out_file)
 
     # Unzip the file
@@ -198,4 +198,63 @@ def preprocess_yao_2021(in_dir: str = 'data/raw',
 
     return df, meta
 
-# TODO: Implement download and preprocess functions for Yazar2022 and AIDA2023
+
+def download_yazar_2018(out_dir: str = 'data/raw'):
+    """
+    Preprocess Yazar et al. 2022 data.
+    """
+    
+    # Create dir to save file
+    dl_out_file = os.path.join(out_dir,'yazar2022',"count_adata.h5ad")
+    dir_path = os.path.dirname(dl_out_file)
+    os.makedirs(dir_path, exist_ok=True)
+
+    # Download Yazar 2022 H5AD data
+    url = "https://datasets.cellxgene.cziscience.com/81d84489-bff9-4fb6-b0ee-78348126eada.h5ad"
+    urllib.request.urlretrieve(url, dl_out_file)
+    
+def preprocess_yazar_2022(in_dir: str = 'data/raw',
+    out_dir: str = 'data/processed/yazar2022',
+    overwrite: bool = False):
+    
+    """
+    Preprocess Yazar et al. 2022 data.
+    """
+    
+    # If raw data does not exist, download it
+    if not os.path.exists(os.path.join(in_dir, 'yazar2022', "count_adata.h5ad")):
+        download_yazar_2018(in_dir)
+        
+    # If processed data exists, load it
+    if os.path.exists(os.path.join(out_dir, "yazar2022_count.tsv")) and not overwrite:
+        return pd.read_csv(os.path.join(out_dir, "yazar2022_count.tsv"), sep='\t',index_col=0), \
+               pd.read_csv(os.path.join(out_dir, "yazar2022_metadata.tsv"), sep='\t')
+    
+    # Load the data
+    data = sc.read_h5ad(os.path.join(in_dir,'yazar2022',"count_adata.h5ad"))
+    
+    # Filter genes not expressed in at least 10 cells
+    sc.pp.filter_genes(data, min_cells=10) # Filtering genes based on number of cells/counts
+    
+    # Transpose
+    data = data.T # gene x samples
+    
+    
+    # Extract and save metadata
+    os.makedirs(out_dir, exist_ok=True)
+    meta = data.var # Samples Data
+    meta = meta.rename({"barcode":"cell_name", "donor_id":"donor"},axis=1)
+    meta = meta[["cell_name", "cell_type", "donor"]]
+    meta.to_csv(os.path.join(out_dir, "yazar2022_metadata.tsv"), sep='\t')
+    data.obs.index.to_series().to_csv(os.path.join(out_dir, "yazar2022_genes.tsv"), sep='\t', index=False) # Genes
+
+    # Extract raw counts and save
+    data_df = pd.DataFrame.sparse.from_spmatrix(data.X, index=data.obs.index, columns=data.var.index)
+    data_df = data_df.sparse.to_dense()
+    data_df = data_df.loc[data_df.var(axis=1) >= 1, :]
+    data_df.to_csv(os.path.join(out_dir, "yazar2022_count.tsv"), sep='\t')
+
+    # Remove original H5AD
+    os.remove(os.path.join(in_dir,'yazar2022',"count_adata.h5ad"))
+
+    return data, meta

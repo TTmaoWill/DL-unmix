@@ -48,7 +48,7 @@ def run_DLunmix_GP(target_dir: str,
     cell_types = np.sort(target_frac.columns.values)
 
     sc_count = pd.read_csv(f"{sc_dir}_count.tsv", sep="\t", index_col=0).T
-    sc_meta = pd.read_csv(f"{sc_dir}_metadata.tsv", sep="\t")
+    sc_meta = pd.read_csv(f"{sc_dir}_metadata.tsv", sep="\t", index_col=0)
     sc_meta.columns = ['cell_name', 'cell_type', 'donor']
     prefix = os.path.basename(sc_dir)
     sc_pbs, sc_cts, sc_frac = create_pb(sc_count, sc_meta, prefix=prefix, out_dir=os.path.dirname(sc_dir), qc_threshold=0.8)

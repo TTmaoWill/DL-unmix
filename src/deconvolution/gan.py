@@ -62,7 +62,7 @@ def run_DLunmix_GAN(target_dir: str,
     cell_types = np.sort(target_frac.columns.values)
 
     sc_count = pd.read_csv(f"{sc_dir}_count.tsv", sep="\t", index_col=0).T
-    sc_meta = pd.read_csv(f"{sc_dir}_metadata.tsv", sep="\t")
+    sc_meta = pd.read_csv(f"{sc_dir}_metadata.tsv", sep="\t", index_col=0)
 
     sc_meta.columns = ['cell_name', 'cell_type', 'donor']
     prefix = os.path.basename(sc_dir)
@@ -81,6 +81,7 @@ def run_DLunmix_GAN(target_dir: str,
     # Permutation
     original_genes = sc_pbs.columns.values
     permuted_genes = original_genes.copy() 
+    seed = int(seed)
     if seed > 0:
         random.seed(seed)
         random.shuffle(permuted_genes)
