@@ -2,7 +2,7 @@ import sys
 import importlib
 import os
 import numpy as np
-import src.deconvolution
+# import src.deconvolution
 import src.preprocess
 from src.preprocess.download_preprocess_data import *
 from src.preprocess.generate_pseudobulk import *
@@ -31,29 +31,28 @@ def main():
     method = kwargs['method']
     del kwargs['method']
 
-    # (Download) Preprocess Yazar 2022 data
-    if not os.path.exists("data/processed/yazar2022/yazar2022_pbs.tsv"):
-        target_count, target_meta = preprocess_yazar_2022()
+    # (Download) Preprocess AIDA data
+    if not os.path.exists("data/processed/aida/aida_pbs.tsv"):
+        target_count, target_meta = preprocess_aida_data()
 
         print("Pseudobulk work", flush=True)
-        # Generate pseudo-bulk data using Tasic et al. 2018 data
+        # Generate pseudo-bulk data using AIDA data
         target_pbs, target_cts, target_frac = create_pb(
             target_count,
             target_meta,
-            out_dir="data/processed/yazar2022",
-            prefix="yazar2022",
+            out_dir="data/processed/aida",
+            prefix="aida",
             qc_threshold=0.8,
             force=True
         )
 
-
-    src.deconvolution.utils.run_deconvolution(
-        method,
-        target_dir='data/processed/yazar2022/yazar2022',
-        sc_dir='data/processed/yazar2022/yazar2022',
-        out_dir="data/results/yazar2022",
-        **kwargs
-        )
+    # src.deconvolution.utils.run_deconvolution(
+    #     method,
+    #     target_dir='data/processed/aida/aida',
+    #     sc_dir='data/processed/aida/aida',
+    #     out_dir="data/results/aida",
+    #     **kwargs
+    #     )
 
 if __name__ == "__main__":
     main()
