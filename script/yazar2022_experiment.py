@@ -46,7 +46,6 @@ def main():
             force=True
         )
 
-
     src.deconvolution.utils.run_deconvolution(
         method,
         target_dir='data/processed/yazar2022/yazar2022',

@@ -109,7 +109,7 @@ def create_pb(
 		sample_pb.name = f"{donor}"
 		pbs = pd.concat([pbs, sample_pb], axis=1)
 		# Aggregate by cell type (genes x cell_types)
-		sample_cts = sampled_cells.groupby("cell_type").sum().drop(columns=["donor"])
+		sample_cts = sampled_cells.drop(columns=["donor"]).groupby("cell_type").sum()
 		for cell_type in unique_cell_types:
 			if cell_type not in sample_cts.index:
 				sample_cts.loc[cell_type,:] = 0

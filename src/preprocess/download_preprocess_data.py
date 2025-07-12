@@ -220,17 +220,17 @@ def preprocess_yazar_2022(in_dir: str = 'data/raw',
     """
     Preprocess Yazar et al. 2022 data.
     """
-    
-    # If raw data does not exist, download it
-    if not os.path.exists(os.path.join(in_dir, 'yazar2022', "count_adata.h5ad")):
-        print("Downloading data", flush=True)
-        download_yazar_2022(in_dir)
         
     # If processed data exists, load it
     if os.path.exists(os.path.join(out_dir, "yazar2022_count.tsv")) and not overwrite:
         return pd.read_csv(os.path.join(out_dir, "yazar2022_count.tsv"), sep='\t',index_col=0), \
                pd.read_csv(os.path.join(out_dir, "yazar2022_metadata.tsv"), sep='\t')
     
+    # If raw data does not exist, download it
+    if not os.path.exists(os.path.join(in_dir, 'yazar2022', "count_adata.h5ad")):
+        print("Downloading data", flush=True)
+        download_yazar_2022(in_dir)
+        
     # Load the data
     print("Reading data", flush=True)
     data = sc.read_h5ad(os.path.join(in_dir,'yazar2022',"count_adata.h5ad"))
@@ -248,11 +248,11 @@ def preprocess_yazar_2022(in_dir: str = 'data/raw',
     data = data[:, data.var.n_cells_by_counts > 10]
 
     # Transpose
-    data = data.T # gene x samples
+    data = data.copy().T  # gene x samples
     
     # Extract and save metadata
     os.makedirs(out_dir, exist_ok=True)
-    meta = data.var # Samples Data
+    meta = data.var.reset_index() # Samples Data
     meta = meta.rename({"barcode":"cell_name", "donor_id":"donor"},axis=1)
     meta = meta[["cell_name", "cell_type", "donor"]]
     meta.to_csv(os.path.join(out_dir, "yazar2022_metadata.tsv"), sep='\t')
@@ -267,7 +267,7 @@ def preprocess_yazar_2022(in_dir: str = 'data/raw',
     # Remove original H5AD
     os.remove(os.path.join(in_dir,'yazar2022',"count_adata.h5ad"))
 
-    return data, meta
+    return data_df, meta
 
 def download_aida_data(out_dir: str = 'data/raw'):
     """
@@ -291,19 +291,20 @@ def preprocess_aida_data(in_dir: str = 'data/raw',
     """
     Preprocess AIDA et al. data.
     """
+            
+    # If processed data exists, load it
+    if os.path.exists(os.path.join(out_dir, "aida_count.tsv")) and not overwrite:
+        print("Reading processed data", flush=True)
+        return pd.read_csv(os.path.join(out_dir, "aida_count.tsv"), sep='\t',index_col=0), \
+               pd.read_csv(os.path.join(out_dir, "aida_metadata.tsv"), sep='\t')
     
     # If raw data does not exist, download it
     if not os.path.exists(os.path.join(in_dir, 'aida', "count_adata.h5ad")):
         print("Downloading data", flush=True)
         download_aida_data(in_dir)
-        
-    # If processed data exists, load it
-    if os.path.exists(os.path.join(out_dir, "aida_count.tsv")) and not overwrite:
-        return pd.read_csv(os.path.join(out_dir, "aida_count.tsv"), sep='\t',index_col=0), \
-               pd.read_csv(os.path.join(out_dir, "aida_metadata.tsv"), sep='\t')
-    
+
     # Load the data
-    print("Reading data", flush=True)
+    print("Reading raw data", flush=True)
     data = sc.read_h5ad(os.path.join(in_dir,'aida',"count_adata.h5ad"))
     
     print(data, flush=True)
@@ -318,15 +319,18 @@ def preprocess_aida_data(in_dir: str = 'data/raw',
     data = data[data.obs.pct_counts_mt < 5, :]
     data = data[:, data.var.n_cells_by_counts > 10]
 
+    print(data, flush=True)
+
     # Transpose
-    data = data.T # gene x samples
-    
+    data = data.copy().T  # gene x samples
+
     # Extract and save metadata
     os.makedirs(out_dir, exist_ok=True)
     meta = data.var # Samples Data
-    meta = meta.rename({"barcode":"cell_name", "donor_id":"donor"},axis=1)
+    meta = meta.reset_index(names='cell_name')
+    meta = meta.rename({"donor_id":"donor"},axis=1)
     meta = meta[["cell_name", "cell_type", "donor"]]
-    meta.to_csv(os.path.join(out_dir, "aida_metadata.tsv"), sep='\t')
+    meta.to_csv(os.path.join(out_dir, "aida_metadata.tsv"), sep='\t', index=False)
     data.obs.index.to_series().to_csv(os.path.join(out_dir, "aida_genes.tsv"), sep='\t', index=False) # Genes
 
     # Extract raw counts and save
@@ -340,4 +344,4 @@ def preprocess_aida_data(in_dir: str = 'data/raw',
 
     print("Done preprocessing data", flush=True)
 
-    return data, meta
+    return data_df, meta

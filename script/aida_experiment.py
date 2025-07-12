@@ -46,13 +46,13 @@ def main():
             force=True
         )
 
-    # src.deconvolution.utils.run_deconvolution(
-    #     method,
-    #     target_dir='data/processed/aida/aida',
-    #     sc_dir='data/processed/aida/aida',
-    #     out_dir="data/results/aida",
-    #     **kwargs
-    #     )
+    src.deconvolution.utils.run_deconvolution(
+        method,
+        target_dir='data/processed/aida/aida',
+        sc_dir='data/processed/aida/aida',
+        out_dir="data/results/aida",
+        **kwargs
+        )
 
 if __name__ == "__main__":
     main()
