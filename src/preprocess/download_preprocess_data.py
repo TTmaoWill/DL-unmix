@@ -10,7 +10,7 @@ import scipy.sparse as ss
 import h5py
 from multiprocessing import Pool
 from functools import partial
-
+import scanpy as sc
 
 def download_tasic_2018(out_dir: str = 'data/raw'):
     """
@@ -199,7 +199,7 @@ def preprocess_yao_2021(in_dir: str = 'data/raw',
     return df, meta
 
 
-def download_yazar_2018(out_dir: str = 'data/raw'):
+def download_yazar_2022(out_dir: str = 'data/raw'):
     """
     Preprocess Yazar et al. 2022 data.
     """
@@ -220,29 +220,39 @@ def preprocess_yazar_2022(in_dir: str = 'data/raw',
     """
     Preprocess Yazar et al. 2022 data.
     """
-    
-    # If raw data does not exist, download it
-    if not os.path.exists(os.path.join(in_dir, 'yazar2022', "count_adata.h5ad")):
-        download_yazar_2018(in_dir)
         
     # If processed data exists, load it
     if os.path.exists(os.path.join(out_dir, "yazar2022_count.tsv")) and not overwrite:
         return pd.read_csv(os.path.join(out_dir, "yazar2022_count.tsv"), sep='\t',index_col=0), \
                pd.read_csv(os.path.join(out_dir, "yazar2022_metadata.tsv"), sep='\t')
     
+    # If raw data does not exist, download it
+    if not os.path.exists(os.path.join(in_dir, 'yazar2022', "count_adata.h5ad")):
+        print("Downloading data", flush=True)
+        download_yazar_2022(in_dir)
+        
     # Load the data
+    print("Reading data", flush=True)
     data = sc.read_h5ad(os.path.join(in_dir,'yazar2022',"count_adata.h5ad"))
     
-    # Filter genes not expressed in at least 10 cells
-    sc.pp.filter_genes(data, min_cells=10) # Filtering genes based on number of cells/counts
-    
+    print(data, flush=True)
+
+    print("Preprocessing data", flush=True)
+    # Calculate QC metrics
+    data.var['mt'] = data.var_names.str.startswith('MT-')  # Mitochondrial genes (for human)
+    sc.pp.calculate_qc_metrics(data, qc_vars=['mt'], percent_top=None, log1p=False, inplace=True)
+
+    # Filter cells and genes
+    data = data[data.obs.n_genes_by_counts < 2500, :]
+    data = data[data.obs.pct_counts_mt < 5, :]
+    data = data[:, data.var.n_cells_by_counts > 10]
+
     # Transpose
-    data = data.T # gene x samples
-    
+    data = data.copy().T  # gene x samples
     
     # Extract and save metadata
     os.makedirs(out_dir, exist_ok=True)
-    meta = data.var # Samples Data
+    meta = data.var.reset_index() # Samples Data
     meta = meta.rename({"barcode":"cell_name", "donor_id":"donor"},axis=1)
     meta = meta[["cell_name", "cell_type", "donor"]]
     meta.to_csv(os.path.join(out_dir, "yazar2022_metadata.tsv"), sep='\t')
@@ -257,4 +267,81 @@ def preprocess_yazar_2022(in_dir: str = 'data/raw',
     # Remove original H5AD
     os.remove(os.path.join(in_dir,'yazar2022',"count_adata.h5ad"))
 
-    return data, meta
+    return data_df, meta
+
+def download_aida_data(out_dir: str = 'data/raw'):
+    """
+    Preprocess AIDA data.
+    """
+    
+    # Create dir to save file
+    dl_out_file = os.path.join(out_dir,'aida',"count_adata.h5ad")
+    dir_path = os.path.dirname(dl_out_file)
+    os.makedirs(dir_path, exist_ok=True)
+
+    # Download AIDA H5AD data
+    url = "https://datasets.cellxgene.cziscience.com/0fce5dd5-bcec-4288-90b3-19a16b45ad16.h5ad"
+    urllib.request.urlretrieve(url, dl_out_file)
+
+
+def preprocess_aida_data(in_dir: str = 'data/raw',
+    out_dir: str = 'data/processed/aida',
+    overwrite: bool = False):
+    
+    """
+    Preprocess AIDA et al. data.
+    """
+            
+    # If processed data exists, load it
+    if os.path.exists(os.path.join(out_dir, "aida_count.tsv")) and not overwrite:
+        print("Reading processed data", flush=True)
+        return pd.read_csv(os.path.join(out_dir, "aida_count.tsv"), sep='\t',index_col=0), \
+               pd.read_csv(os.path.join(out_dir, "aida_metadata.tsv"), sep='\t')
+    
+    # If raw data does not exist, download it
+    if not os.path.exists(os.path.join(in_dir, 'aida', "count_adata.h5ad")):
+        print("Downloading data", flush=True)
+        download_aida_data(in_dir)
+
+    # Load the data
+    print("Reading raw data", flush=True)
+    data = sc.read_h5ad(os.path.join(in_dir,'aida',"count_adata.h5ad"))
+    
+    print(data, flush=True)
+
+    print("Preprocessing data", flush=True)
+    # Calculate QC metrics
+    data.var['mt'] = data.var_names.str.startswith('MT-')  # Mitochondrial genes (for human)
+    sc.pp.calculate_qc_metrics(data, qc_vars=['mt'], percent_top=None, log1p=False, inplace=True)
+
+    # Filter cells and genes
+    data = data[data.obs.n_genes_by_counts < 2500, :]
+    data = data[data.obs.pct_counts_mt < 5, :]
+    data = data[:, data.var.n_cells_by_counts > 10]
+
+    print(data, flush=True)
+
+    # Transpose
+    data = data.copy().T  # gene x samples
+
+    # Extract and save metadata
+    os.makedirs(out_dir, exist_ok=True)
+    meta = data.var # Samples Data
+    meta = meta.reset_index(names='cell_name')
+    meta = meta.rename({"donor_id":"donor"},axis=1)
+    meta = meta[["cell_name", "cell_type", "donor"]]
+    meta.to_csv(os.path.join(out_dir, "aida_metadata.tsv"), sep='\t', index=False)
+    data.obs.index.to_series().to_csv(os.path.join(out_dir, "aida_genes.tsv"), sep='\t', index=False) # Genes
+
+    # Extract raw counts and save
+    data_df = pd.DataFrame.sparse.from_spmatrix(data.X, index=data.obs.index, columns=data.var.index)
+    data_df = data_df.sparse.to_dense()
+    data_df = data_df.loc[data_df.var(axis=1) >= 1, :]
+    data_df.to_csv(os.path.join(out_dir, "aida_count.tsv"), sep='\t')
+
+    # Remove original H5AD
+    os.remove(os.path.join(in_dir,'aida',"count_adata.h5ad"))
+
+    print("Done preprocessing data", flush=True)
+
+    return data_df, meta
