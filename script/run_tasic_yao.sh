@@ -1,4 +1,4 @@
-PYTHONPATH=/proj/yunligrp/users/chenweit/DL-unmix
+# export PYTHONPATH=/proj/yunligrp/users/chenweit/DL-unmix
 
 method=""
 for arg in "$@"; do

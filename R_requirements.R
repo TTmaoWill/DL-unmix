@@ -1,7 +1,7 @@
 if (!requireNamespace("devtools", quietly = TRUE))
 	install.packages("devtools")
 
-devtools::install_github('randel/MIND')
+devtools::install_github('TTmaoWill/MIND_nobisque')
 
 if (!requireNamespace("tidyverse", quietly = TRUE))
 	install.packages('tidyverse')

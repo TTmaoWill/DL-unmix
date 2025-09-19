@@ -18,7 +18,7 @@ def run_bMIND(target_dir: str, sc_dir: str, out_dir: str):
     # Define the R function
     r_code = """
     function(target_dir, sc_dir, out_dir) {
-        library(MIND)
+        library(MINDNoBisque)
         library(tidyverse)
         library(data.table)
         bulk <- read_tsv(paste0(target_dir, '_pbs.tsv'), col_names = TRUE) %>%

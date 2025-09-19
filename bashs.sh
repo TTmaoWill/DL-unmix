@@ -1,4 +1,4 @@
-PYTHONPATH=.
+export PYTHONPATH=.
 
 # Tasic-yao experiments
 bash script/run_tasic_yao.sh --method=bmind
