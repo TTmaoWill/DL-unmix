@@ -8,9 +8,12 @@ used only for evaluation.
 
 ## Install
 
-Use Python 3.10 or newer in a dedicated environment:
+Version **0.3.0** uses model artifact **format 2**. Use Python 3.10 or newer
+in a dedicated environment. This candidate is available on the compact branch:
 
 ```bash
+git clone --branch refactor/minimal-v0-20261009 https://github.com/TTmaoWill/DL-unmix.git
+cd DL-unmix
 python -m venv .venv
 source .venv/bin/activate
 python -m pip install --upgrade pip
@@ -23,6 +26,10 @@ and plotting libraries are not required. CPU is the default; CUDA is optional. `
 See [installation](docs/installation.md) for the tested environment and build checks,
 and [dependency security](docs/dependency-security.md) for the version floor and
 trusted-model requirements.
+
+See the [version notes](CHANGELOG.md), [validation coverage](docs/validation.md)
+and [model loading guide](docs/model-files.md). Pretrained model downloads are
+not included in this candidate.
 
 ## Run the synthetic example
 
