@@ -1,6 +1,6 @@
 # Version notes
 
-## 0.3.0 — release candidate, 2026-10-09
+## 0.3.0 — 2026-10-09
 
 - Compact reference-supervised residual MLP with CPU and explicit CUDA execution.
 - Portable format-2 models containing configuration, reference features,
@@ -20,4 +20,4 @@ that analysis's setting. Expression input is normalized linear expression;
 predictions are on the log2(max(expression, 0) + 1) scale. See the
 [method](docs/method.md) and [validation record](docs/validation.md).
 
-This draft is a package release. No pretrained model files are distributed.
+This is a package release. No pretrained model files are distributed.

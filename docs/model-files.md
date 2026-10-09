@@ -51,7 +51,7 @@ preserves learned weights and reference metadata; it does not train a new model.
 
 ## Pretrained model availability
 
-No pretrained artifacts are downloadable from this package candidate. The
+No pretrained artifacts are downloadable from this package release. The
 ROSMAP real-data artifact remains private pending confirmation of its
 redistribution permissions. Its historical prediction configuration uses
 `fraction_floor=1e-6`; substituting the API's 0.01 default changes that setting.

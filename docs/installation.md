@@ -1,5 +1,13 @@
 # Installation and development
 
+Clone the current package from `main` and run installation commands from the
+repository root:
+
+```bash
+git clone --branch main https://github.com/TTmaoWill/DL-unmix.git
+cd DL-unmix
+```
+
 Package installation reads `pyproject.toml`.
 Python >=3.10 is declared; the release verification environment uses Python
 3.11.14, NumPy 2.3.5 and pandas 2.3.3, with PyTorch 2.10.0+cpu or

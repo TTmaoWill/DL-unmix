@@ -9,10 +9,10 @@ used only for evaluation.
 ## Install
 
 Version **0.3.0** uses model artifact **format 2**. Use Python 3.10 or newer
-in a dedicated environment. This candidate is available on the compact branch:
+in a dedicated environment. Install the current package from `main`:
 
 ```bash
-git clone --branch refactor/minimal-v0-20261009 https://github.com/TTmaoWill/DL-unmix.git
+git clone --branch main https://github.com/TTmaoWill/DL-unmix.git
 cd DL-unmix
 python -m venv .venv
 source .venv/bin/activate
@@ -29,7 +29,7 @@ trusted-model requirements.
 
 See the [version notes](CHANGELOG.md), [validation coverage](docs/validation.md)
 and [model loading guide](docs/model-files.md). Pretrained model downloads are
-not included in this candidate.
+not included in this release.
 
 ## Run the synthetic example
 
