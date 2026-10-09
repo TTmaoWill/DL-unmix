@@ -1,0 +1,10 @@
+include README.md LICENSE LICENSE_SCOPE.md
+recursive-include docs *.md *.json
+recursive-include examples *.py
+recursive-include release_tests *.py
+prune src
+prune script
+prune build
+prune dist
+prune .release-checks
+global-exclude __pycache__ *.py[cod]

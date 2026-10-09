@@ -1,0 +1,14 @@
+{
+  "source_bundle": "fujita_mathys_no_overlap_all_methods_20261005",
+  "adopted_figure_bundle": "figure2_disjoint_reference_20261008",
+  "variant": "V0_no_expected_logfrac_only",
+  "source_files_sha256": {
+    "build_reference_pseudobulk.py": "1a17d7705d732414b4292217f9adf0471e3a20337c60af34dd9e2c0c5b88e58b",
+    "dl_unmix_common.py": "c740087fef578de3e9a92e671165cda67be75faaf20fc2f00c76d2d2ff676a9c",
+    "predict_from_step1.py": "cbe0092ff288281d53f7a5e789a3be32ef0e7d2bb431af43a759086feb4db214",
+    "predict_target.py": "c20c8a6bb4f0925e6f8a501e42a4e1569bf913babe4faf3bc2bc46a80bd914b6",
+    "train_step1.py": "69e415f4d7d09f23bb0b3d5bb5795f817665bd64073741ab9effcde55274485d",
+    "train_step2.py": "8419c903b0eec4604a75e6736a7f8897fbe564dfa1a7568023712361dd7ca94d"
+  },
+  "adaptation": "_reference.py retains the adopted common implementation; only build_bundle permits absent truth and returns Y_abs/truth_raw_df=None for prediction. The public wrapper restricts configuration to the adopted method."
+}
