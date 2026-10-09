@@ -46,33 +46,15 @@ scalers are recomputed from that full reference. Validation scores are retained
 from the held-out procedure and are not recomputed on full-reference fitted
 predictions. Signed validation PCC >0.4 defines a separate output-selection mask.
 
-Reference training/validation uses a 1e-6 log-fraction floor. The release's
-prediction default is 0.01, matching adopted accuracy/deployment inference.
-The full-cohort original-input correlation-structure analysis used 1e-6 instead;
-choose it explicitly when reproducing that input setting. Floors affect direct
-log-fraction features only and do not renormalize fractions or modify their use
-in the composition residual.
+Reference training and validation use a 1e-6 log-fraction floor. Prediction
+uses 0.01 by default, configurable through the API or CLI. Floors affect direct
+log-fraction features only; fractions retain their original values in the
+composition residual.
 
-## Inputs and execution
+## Execution
 
-- CPU-default public interface with explicit CUDA selection. No cross-device
-  bitwise-equivalence claim is made. Model parameters, buffers, feature tensors
-  and contrast indices use the selected device; the seeded row sampler stays
-  on CPU. Saved tensors always use CPU for portability.
-- Reference matrices are already aggregated and normalized. A single-cell
-  preprocessing pipeline and fraction estimators are not included in this release.
-- The gene panel is explicit and fixed before fitting. The archived benchmark
-  loader intersected reference and target truth availability. This release never
-  requires target truth to define features; supply the same panel for parity.
-- Strong label/numeric/fraction checks replace silent intersections. No new
-  imputation or normalization is introduced.
-- Target truth is optional in feature construction. No dummy labels are created.
-- Fitted metadata are serialized, so prediction needs neither reference donors
-  nor their source files. The research scripts rebuilt metadata from references.
-- Small candidate-epoch overrides are allowed for software tests; defaults retain
-  the adopted schedule. FitConfig changes are stored with the fitted artifact.
-- Optional evaluation is descriptive and unfiltered. It does not reproduce
-  benchmark cohort masks, method comparisons, significance tests or DEG/eQTL
-  pipelines. It cannot establish the paper's scientific results by itself.
-- Inference materializes donor/gene feature arrays as in the reference code;
-  memory scales with donors × genes × cell types. This is not a streaming API.
+CPU is the default device; CUDA can be selected explicitly. Saved weights use
+CPU tensors and can be loaded on either device. Floating-point results can
+vary between devices. Inference materializes donor/gene feature arrays, so
+memory scales with donors × genes × cell types. Large cohorts can be processed
+in donor batches using the same fitted model.

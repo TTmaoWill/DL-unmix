@@ -29,7 +29,7 @@ class ReferenceParity(unittest.TestCase):
     def setUpClass(cls):
         torch.set_num_threads(1)
         source = Path(os.environ["DLUNMIX_REFERENCE_SOURCE"]) / "dl_unmix_common.py"
-        provenance = json.loads((Path(__file__).resolve().parents[1] / "docs/provenance.json").read_text())
+        provenance = json.loads((Path(__file__).resolve().parents[1] / "tests/reference_source.json").read_text())
         if hashlib.sha256(source.read_bytes()).hexdigest() != provenance["source_files_sha256"][source.name]:
             raise ValueError("adopted source hash does not match provenance")
         cls.original = load_module("adopted", source)

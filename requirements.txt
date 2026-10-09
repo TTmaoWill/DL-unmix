@@ -1,2 +1,0 @@
-# Canonical dependency declarations are in pyproject.toml.
-.

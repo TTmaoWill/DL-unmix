@@ -29,7 +29,7 @@ data/results/
 # SLURM files
 slurm-*.out
 
-# Current-method release build/test artifacts
+# Build and test artifacts
 .venv/
 .release-checks/
 build/
@@ -38,4 +38,5 @@ dist/
 *.pt
 *.npz
 demo-output/
-synthetic-output/
+fitted-model/
+target-prediction/

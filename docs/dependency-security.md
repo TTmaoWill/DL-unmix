@@ -22,7 +22,3 @@ authenticate the producer, comprehensively validate all artifact contents or
 bound resource usage. A patched dependency is not permission to load arbitrary
 untrusted checkpoints. Do not bypass package dependency checks with `--no-deps`
 unless the installed dependencies already meet the declared requirements.
-
-The tested environment and reproduction instructions are in `installation.md`.
-Functional parity on the earlier PyTorch 2.5.1 environment does not establish
-release security. No malicious checkpoint was executed during verification.

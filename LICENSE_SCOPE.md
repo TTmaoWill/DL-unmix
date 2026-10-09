@@ -1,7 +1,7 @@
 # License scope
 
 The MIT license in `LICENSE` applies to the current-method release in
-`dlunmix/`, `release_tests/`, `examples/`, `tools/`, `docs/` and the release's README and
+`dlunmix/`, `tests/`, `tools/`, `docs/` and the README, CONTRIBUTING guide and
 build/install metadata. The copyright name Will Tang is taken from existing
 repository author records for the owner account; no placeholder author identity
 is substituted. MIT was selected with the repository owner's authorization.
