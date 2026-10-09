@@ -2,8 +2,7 @@
 
 DL-unmix learns donor-level cell-type-specific (CTS) expression from a
 donor-resolved reference, then predicts CTS expression from target bulk expression
-and cell-type fractions. This release exposes the current
-`V0_no_expected_logfrac_only` method through a Python API and command line.
+and cell-type fractions through a Python API and command line.
 It does not estimate cell fractions. Target CTS ground truth is optional and is
 used only for evaluation.
 
@@ -84,6 +83,10 @@ predicted = restored.predict(target_bulk, target_fractions)
 selected = restored.selected_profiles(threshold=0.4)
 ```
 
+Artifacts use format 2. To convert a trusted model saved by version 0.2, run
+`python tools/convert_model.py old-model converted-model` once from this checkout.
+Then load `converted-model` with the regular API. See [migration](docs/migration.md).
+
 ## Device selection
 
 Use `--device cpu` (default), `--device cuda`, or `--device cuda:0` with
@@ -118,7 +121,7 @@ Training and reference validation use a log-fraction floor of **1e-6**.
 Prediction defaults to **0.01**, matching the adopted accuracy/deployment setting;
 pass `--fraction-floor 1e-6` explicitly for original-input predictions.
 Original fractions remain unchanged in the composition-residual calculation.
-See [method details and release differences](docs/method.md).
+See [method details](docs/method.md).
 
 Performance depends on reference coverage, input normalization and fraction
 accuracy. Predicted expression alone does not establish valid CTS disease
@@ -134,19 +137,13 @@ and should be handled under the source data's access conditions.
 python -m unittest discover -s release_tests -v
 ```
 
-An optional parity test can compare the release with the adopted original
-implementation using only generated synthetic data; see
+An optional numerical test checks converted weights and aligned training against
+the adopted implementation using generated synthetic data; see
 [provenance](docs/provenance.md). Source-file hashes are recorded in
 [provenance.json](docs/provenance.json).
-
-The older `src/`, `script/`, R/comparator scripts and related files remain in
-Git history and in the checkout as **legacy research code**. They are not part
-of the installed package and are not imported by `dlunmix`.
 
 ## License
 
 The current release files are provided under the [MIT license](LICENSE).
-[LICENSE_SCOPE.md](LICENSE_SCOPE.md) identifies the covered files and separates
-the retained multi-author legacy code; this release does not relicense that code
-or its dependencies. Publication citation metadata will be added when an
+[LICENSE_SCOPE.md](LICENSE_SCOPE.md) identifies the covered files. Publication citation metadata will be added when an
 author-approved paper citation is available.

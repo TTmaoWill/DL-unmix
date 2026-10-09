@@ -2,8 +2,7 @@ include README.md LICENSE LICENSE_SCOPE.md
 recursive-include docs *.md *.json
 recursive-include examples *.py
 recursive-include release_tests *.py
-prune src
-prune script
+recursive-include tools *.py
 prune build
 prune dist
 prune .release-checks

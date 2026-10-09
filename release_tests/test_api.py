@@ -119,7 +119,7 @@ class ReleaseTests(unittest.TestCase):
         original = self.model.predict(bulk, frac, fraction_floor=1e-6)
         self.assertTrue(np.isfinite(default.to_numpy()).all())
         self.assertGreater(np.max(np.abs(default.iloc[0]-original.iloc[0])), 0)
-        self.assertEqual(self.model.model_.fraction_min_clip, 1e-6)
+        self.assertEqual(self.model.model_.fraction_floor, 1e-6)
 
     def test_optional_evaluation(self):
         p = self.model.predict(*self.target[:2])

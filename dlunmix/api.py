@@ -15,7 +15,7 @@ import pandas as pd
 import torch
 from torch.utils.data import TensorDataset
 
-from . import _reference as ref
+from . import _model as ref
 
 
 @dataclass(frozen=True)
@@ -117,22 +117,16 @@ def _resolve_device(device):
 
 
 def _network(n_ct, config, floor=1e-6, device="cpu"):
-    return ref.EarlySplitResidualNet(
-        donor_dim=3 + 2*n_ct, gene_dim=2*n_ct + 3, local_dim=4,
-        output_dim=n_ct, dropout=config.dropout, ct_names=[str(i) for i in range(n_ct)],
-        bulk_feature_mode="bulk_resid", fraction_feature_mode="log_only",
-        fraction_input_scope="both", fraction_min_clip=floor,
-    ).to(device)
+    return ref.ResidualNet(n_ct, config.dropout, floor).to(device)
 
 
-def _bundle(bulk, fractions, truth, meta, scalers=None, fit=False, floor=1e-6, device="cpu"):
-    return ref.build_bundle(bulk, fractions, truth, meta, scalers, fit,
-                            torch.device(device), bulk_feature_mode="bulk_resid", fraction_min_clip=floor)
+def _bundle(bulk, fractions, truth, meta, scalers=None, fit=False, device="cpu"):
+    return ref.build_bundle(bulk, fractions, truth, meta, scalers, fit, torch.device(device))
 
 
 def _loader(bundle, config):
     dataset = TensorDataset(*(bundle[k] for k in ("donor_feat", "gene_feat", "local_feat", "Y_abs", "ref_mean")))
-    return ref.build_row_dataloader(dataset, bundle, config.batch_size, config.seed)
+    return ref.build_row_dataloader(dataset, config.batch_size, config.seed)
 
 
 def _train_epoch(model, loader, optimizer, pair_i, pair_j):
@@ -140,8 +134,8 @@ def _train_epoch(model, loader, optimizer, pair_i, pair_j):
     losses = []
     for donor, gene, local, truth, anchor in loader:
         optimizer.zero_grad()
-        delta, predicted, _ = ref.forward_pred(model, donor, gene, local, anchor)
-        loss, _ = ref.compute_losses(delta, predicted, truth, anchor, pair_i, pair_j, 1.0, 1.0, 1.0)
+        delta = model(donor, gene, local)
+        loss = ref.training_loss(delta, truth, anchor, pair_i, pair_j)
         if not torch.isfinite(loss):
             raise ValueError("non-finite training loss; check expression input scale")
         loss.backward()
@@ -152,7 +146,7 @@ def _train_epoch(model, loader, optimizer, pair_i, pair_j):
 
 def _pcc_array(predicted, truth, genes, cell_types):
     return np.asarray([[ref.corrcoef_safe(
-        ref.transform_expression_numpy(truth[f"{g}_{ct}"].to_numpy(), "log2p1_nonnegative"),
+        ref.transform_expression(truth[f"{g}_{ct}"].to_numpy()),
         predicted[f"{g}_{ct}"].to_numpy()) for ct in cell_types] for g in genes], dtype=np.float64)
 
 
@@ -259,16 +253,15 @@ class DLUnmix:
             raise ValueError("target genes must exactly match the fitted panel; subset explicitly before prediction")
         bulk = bulk.loc[:, self.genes_]
         fractions = _fractions(fractions, list(bulk.index), self.cell_types_)
-        bundle, _ = _bundle(bulk, fractions, None, self.gene_meta_, self.scalers_, floor=fraction_floor, device=selected_device)
+        bundle, _ = _bundle(bulk, fractions, None, self.gene_meta_, self.scalers_, device=selected_device)
         self.model_.to(selected_device)
         self.device = selected_device
-        # The reference forward path recomputes log fractions, so set both paths.
-        previous_floor = self.model_.fraction_min_clip
+        previous_floor = self.model_.fraction_floor
         try:
-            self.model_.fraction_min_clip = float(fraction_floor)
+            self.model_.fraction_floor = float(fraction_floor)
             pred = ref.predict_to_frame(self.model_, bundle, self.config.eval_batch_size)
         finally:
-            self.model_.fraction_min_clip = previous_floor
+            self.model_.fraction_floor = previous_floor
         pred.columns = pd.MultiIndex.from_product([self.genes_, self.cell_types_], names=["gene", "cell_type"])
         return pred
 
@@ -284,7 +277,7 @@ class DLUnmix:
         self._check_fitted()
         directory = Path(directory)
         directory.mkdir(parents=True, exist_ok=False)
-        metadata = {"format_version": 1, "package_version": "0.2.0", "variant": "V0_no_expected_logfrac_only",
+        metadata = {"format_version": 2, "package_version": "0.3.0", "architecture": "residual_mlp",
                     "config": asdict(self.config), "genes": self.genes_, "cell_types": self.cell_types_,
                     "selected_epochs": self.selected_epochs_, "history": self.history_, "reference_counts": self.reference_counts_,
                     "training_fraction_floor": 1e-6, "default_prediction_fraction_floor": 0.01,
@@ -302,8 +295,8 @@ class DLUnmix:
         selected_device = _resolve_device(device)
         directory = Path(directory)
         d = json.loads((directory / "model.json").read_text())
-        if d.get("format_version") != 1 or d.get("variant") != "V0_no_expected_logfrac_only":
-            raise ValueError("unsupported model artifact format or variant")
+        if d.get("format_version") != 2 or d.get("architecture") != "residual_mlp":
+            raise ValueError("unsupported model artifact format or architecture")
         if d.get("expression_transform") != "log2p1_nonnegative" or d.get("training_fraction_floor") != 1e-6:
             raise ValueError("unsupported model preprocessing")
         cfg = dict(d["config"])
@@ -313,13 +306,32 @@ class DLUnmix:
         obj.cell_types_ = _labels(d["cell_types"], "model cell types")
         if len(obj.cell_types_) < 2:
             raise ValueError("model must contain at least two cell types")
+        g, c = len(obj.genes_), len(obj.cell_types_)
+        shapes = {
+            "meta__reference_mean": (g, c), "meta__gene_features": (g, 2*c+3),
+            "meta__local_features": (g, c, 2), "scaler__bulk_mu": (g,),
+            "scaler__bulk_sd": (g,), "scaler__resid_mu": (), "scaler__resid_sd": (),
+            "validation_pcc": (g, c),
+        }
         with np.load(directory / "features.npz", allow_pickle=False) as a:
-            obj.gene_meta_ = {k[6:]: a[k].copy() for k in a.files if k.startswith("meta__")}
-            obj.scalers_ = {k[8:]: a[k].copy() for k in a.files if k.startswith("scaler__")}
-            obj.validation_pcc_ = a["validation_pcc"].copy()
+            if set(a.files) != set(shapes):
+                raise ValueError("model feature arrays do not match the artifact schema")
+            arrays = {k: a[k].copy() for k in shapes}
+        for key, shape in shapes.items():
+            values = arrays[key]
+            if values.shape != shape or values.dtype.kind != "f":
+                raise ValueError(f"invalid model array: {key}")
+            if key == "validation_pcc":
+                if np.isinf(values).any() or (np.abs(values[np.isfinite(values)]) > 1+1e-12).any():
+                    raise ValueError("invalid validation correlations")
+            elif not np.isfinite(values).all():
+                raise ValueError(f"non-finite model array: {key}")
+        if (arrays["scaler__bulk_sd"] <= 0).any() or arrays["scaler__resid_sd"] <= 0:
+            raise ValueError("model scales must be positive")
+        obj.gene_meta_ = {k[6:]: v for k, v in arrays.items() if k.startswith("meta__")}
+        obj.scalers_ = {k[8:]: v for k, v in arrays.items() if k.startswith("scaler__")}
+        obj.validation_pcc_ = arrays["validation_pcc"]
         obj.gene_meta_.update(genes=np.asarray(obj.genes_, dtype=object), cts=np.asarray(obj.cell_types_, dtype=object))
-        if obj.gene_meta_["ref_mean_raw"].shape != (len(obj.genes_), len(obj.cell_types_)):
-            raise ValueError("model anchor shape does not match labels")
         obj.model_ = _network(len(obj.cell_types_), obj.config)
         obj.model_.load_state_dict(torch.load(directory / "weights.pt", map_location="cpu", weights_only=True), strict=True)
         obj.model_.to(obj.device)
@@ -347,7 +359,7 @@ def evaluate(predictions: pd.DataFrame, truth: Mapping[str, pd.DataFrame]):
     t = _truth(truth, list(p.index), genes, cell_types)
     rows = []
     for g, ct in expected:
-        y = ref.transform_expression_numpy(t[f"{g}_{ct}"].to_numpy(), "log2p1_nonnegative")
+        y = ref.transform_expression(t[f"{g}_{ct}"].to_numpy())
         pred = p[f"{g}_{ct}"].to_numpy(dtype=np.float64)
         corr = ref.corrcoef_safe(y, pred)
         rows.append({"gene": g, "cell_type": ct, "n_donors": len(p), "pcc": corr,

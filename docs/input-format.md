@@ -58,7 +58,7 @@ personB	2.0	3.0	4.0	5.0
 
 Write this format with `dlunmix.cli.write_cts(mapping, path)` or inspect the demo
 files. Do not add a third donor-name header row. Numeric-looking donor IDs,
-including leading zeros, are preserved. The legacy internal `gene_celltype`
+including leading zeros, are preserved. The internal `gene_celltype`
 encoding must be unambiguous; colliding label combinations are rejected.
 
 Splits:

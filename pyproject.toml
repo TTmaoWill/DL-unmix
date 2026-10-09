@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "DL-unmix"
-version = "0.2.0"
+version = "0.3.0"
 description = "Reference-supervised donor-level cell-type-specific expression prediction"
 readme = "README.md"
 requires-python = ">=3.10"

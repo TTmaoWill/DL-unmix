@@ -7,16 +7,9 @@ and result hashes, not a historical hash of the Python source itself. This
 release records the inspected source hashes in `provenance.json`; it does not
 assert an independently established historical byte identity.
 
-`dlunmix/_reference.py` is copied from `dl_unmix_common.py`, with one bounded
-change: `build_bundle` accepts absent CTS truth and returns `Y_abs=None` and
-`truth_raw_df=None` for inference. With truth supplied, original calculations
-are preserved. Model defaults are fixed by the public wrapper to the adopted
-variant, rather than the shared library's broader historical defaults.
-
-The original train/predict scripts are not installed or included as alternate
-entrypoints. Their hashes are recorded for provenance. No reference donors,
-clinical variables, identity crosswalks, research predictions, real genotypes,
-research model weights or large generated figures are copied into this release.
+`dlunmix/_model.py` implements reference features, the shared representation,
+cell-type heads, the two training losses and validation scoring. The original
+source hashes identify the numerical reference used to check this implementation.
 
 ## Software verification
 
@@ -25,8 +18,7 @@ training, label alignment, invalid inputs, fraction floors, output selection,
 optional evaluation and CLI file roundtrips. It generates all data at runtime.
 
 To run the additional reference parity check, provide a local directory
-containing the original `dl_unmix_common.py`, `train_step1.py` and
-`train_step2.py` matching the recorded hashes:
+containing `dl_unmix_common.py` matching the recorded hash:
 
 ```bash
 DLUNMIX_REFERENCE_SOURCE=/path/to/adopted/DL_source \
@@ -34,15 +26,18 @@ PYTHONDONTWRITEBYTECODE=1 OMP_NUM_THREADS=1 MKL_NUM_THREADS=1 \
 python -m unittest discover -s release_tests -v
 ```
 
-That test uses a temporary directory and generated synthetic data, invokes the
-original scripts for two candidate epochs, and compares features/scalers,
-selected epoch, full-refit weights and prediction at both fraction floors. It
-does not read original research data or pretrained weights. The source directory
-is never modified. Without the environment variable the external-reference
-test is explicitly skipped; ordinary users do not need that research snapshot.
+The test compares reference features and scalers exactly, then checks prediction
+from converted weights for 2, 3 and 5 cell types, including zero fractions and
+both supported fraction floors. Three training epochs use aligned initial weights,
+row order and dropout random states; losses, parameters, predictions and validation
+scores are compared. It also checks artifact conversion and reload. Numerical
+comparisons use rtol=1e-5 and atol=2e-5. The test reads the supplied source and uses
+generated synthetic data. Without the environment variable it is explicitly skipped.
 
-This is software equivalence checking, not a new benchmark or biological
-validation. Remaining scope differences are enumerated in `method.md`.
+Fresh seeded training is reproducible within this implementation. Input dimensions
+set the Linear initializer's scale and random-number consumption, so retraining
+with a seed from a different architecture does not recreate its fitted model.
+Use converted trained weights when preserving an existing model's predictions.
 
 The supported release verification environment is listed in `installation.md`.
 Earlier checks using PyTorch 2.5.1 were functional comparisons only; they are

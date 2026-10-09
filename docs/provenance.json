@@ -10,5 +10,5 @@
     "train_step1.py": "69e415f4d7d09f23bb0b3d5bb5795f817665bd64073741ab9effcde55274485d",
     "train_step2.py": "8419c903b0eec4604a75e6736a7f8897fbe564dfa1a7568023712361dd7ca94d"
   },
-  "adaptation": "_reference.py retains the adopted common implementation; only build_bundle permits absent truth and returns Y_abs/truth_raw_df=None for prediction. The public wrapper restricts configuration to the adopted method."
+  "implementation": "_model.py implements reference features, a shared residual MLP, cell-type heads, losses and validation metrics. Numerical checks use the adopted source hashes listed here."
 }

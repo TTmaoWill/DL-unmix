@@ -1,9 +1,7 @@
-# Adopted method and release boundaries
+# DL-unmix model
 
-This interface fixes the model to `V0_no_expected_logfrac_only`. It reuses the
-adopted common implementation internally instead of reimplementing its
-numerical kernels. `_reference.py` is private; its historical experimental
-branches are not supported public APIs and cannot be selected through the CLI.
+DL-unmix predicts donor-level cell-type-specific expression by adding learned
+residuals to reference expression anchors.
 
 ## Features and model
 
@@ -20,13 +18,10 @@ Active donor/gene inputs are gene-standardized bulk expression, the globally
 standardized composition residual, log fractions and reference descriptors.
 The composition residual is processed bulk minus the processed fraction-weighted
 mixture of inverse-transformed reference anchors. Each head additionally receives
-its log fraction, standardized anchor and top-type indicator. Always-zero input
-slots from the original implementation are retained internally to preserve
-weight shapes and initialization; they are not additional measured features.
+its log fraction, standardized anchor and top-type indicator. For C cell types, the shared input contains 5 + 3C features.
 
 The shared MLP is Linear→64→ReLU→Dropout(0.15)→Linear→48. The 48-unit shared
-output is linear. Each cell-type head appends four stored local slots (three
-active) and uses hidden layers 64 and 32 with ReLU/dropout, followed by a linear
+output is linear. Each cell-type head appends its three local features and uses hidden layers 64 and 32 with ReLU/dropout, followed by a linear
 scalar output. The residual output is added to the original **unstandardized
 processed-expression** anchor.
 
@@ -58,7 +53,7 @@ choose it explicitly when reproducing that input setting. Floors affect direct
 log-fraction features only and do not renormalize fractions or modify their use
 in the composition residual.
 
-## Deliberate interface differences
+## Inputs and execution
 
 - CPU-default public interface with explicit CUDA selection. No cross-device
   bitwise-equivalence claim is made. Model parameters, buffers, feature tensors
