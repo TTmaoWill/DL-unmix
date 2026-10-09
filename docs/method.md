@@ -60,8 +60,10 @@ in the composition residual.
 
 ## Deliberate interface differences
 
-- CPU public interface; the research implementation can also use CUDA. No
-  cross-device bitwise-equivalence claim is made.
+- CPU-default public interface with explicit CUDA selection. No cross-device
+  bitwise-equivalence claim is made. Model parameters, buffers, feature tensors
+  and contrast indices use the selected device; the seeded row sampler stays
+  on CPU. Saved tensors always use CPU for portability.
 - Reference matrices are already aggregated and normalized. A single-cell
   preprocessing pipeline and fraction estimators are not included in this release.
 - The gene panel is explicit and fixed before fitting. The archived benchmark

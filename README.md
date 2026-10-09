@@ -19,9 +19,8 @@ python -m pip install .
 dlunmix --help
 ```
 
-Core dependencies are NumPy, pandas and PyTorch >=2.10.0,<3. R, comparator methods, GPU
-support and plotting libraries are not required. The public interface currently
-runs on CPU. `requirements.txt` delegates to the same package metadata.
+Core dependencies are NumPy, pandas and PyTorch >=2.10.0,<3. R, comparator methods
+and plotting libraries are not required. CPU is the default; CUDA is optional. `requirements.txt` delegates to the same package metadata.
 See [installation](docs/installation.md) for the tested environment and build checks,
 and [dependency security](docs/dependency-security.md) for the version floor and
 trusted-model requirements.
@@ -84,6 +83,27 @@ restored = DLUnmix.load("fitted-model")
 predicted = restored.predict(target_bulk, target_fractions)
 selected = restored.selected_profiles(threshold=0.4)
 ```
+
+## Device selection
+
+Use `--device cpu` (default), `--device cuda`, or `--device cuda:0` with
+`fit`, `predict`, or `demo`. CUDA requires a CUDA-enabled PyTorch installation
+and a visible, allocated GPU. An unavailable CUDA request raises an error.
+
+```python
+model = DLUnmix(device="cuda")  # fit uses this device unless overridden
+# model.fit(..., device="cuda:0")
+restored = DLUnmix.load("fitted-model", device="cuda:0")
+predicted = restored.predict(target_bulk, target_fractions)
+cpu_prediction = restored.predict(target_bulk, target_fractions, device="cpu")
+```
+
+A prediction device override moves the model and remains active for later calls.
+Saved weights always use CPU tensors; `load()` defaults to CPU regardless of
+where training ran. Device selection is runtime state, not part of FitConfig
+or the saved artifact format. Feature bundles are materialized on the selected
+device, so large inputs can exceed GPU memory. CPU/CUDA training need not be
+bitwise identical. See [tested coverage](docs/installation.md).
 
 ## Method and scope
 

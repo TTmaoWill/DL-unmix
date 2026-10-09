@@ -57,7 +57,7 @@ def _predict_outputs(model, bulk, fractions, out, floor, truth=None):
 
 
 def main(argv=None):
-    parser = argparse.ArgumentParser(prog="dlunmix", description="Fit and apply the adopted reference-supervised DL-unmix model (CPU).")
+    parser = argparse.ArgumentParser(prog="dlunmix", description="Fit and apply the adopted reference-supervised DL-unmix model (CPU/CUDA).")
     commands = parser.add_subparsers(dest="command", required=True)
     fit = commands.add_parser("fit")
     for name in ["reference-bulk", "reference-fractions", "reference-cts", "splits", "out"]:
@@ -70,13 +70,15 @@ def main(argv=None):
     predict.add_argument("--truth-cts", help="optional evaluation labels; never needed for prediction")
     demo = commands.add_parser("demo")
     demo.add_argument("--out", required=True)
+    for command in (fit, predict, demo):
+        command.add_argument("--device", default="cpu", help="cpu (default), cuda or cuda:N; CUDA must be available")
     args = parser.parse_args(argv)
     try:
         if args.command == "fit":
             split = pd.read_csv(args.splits, sep="\t", dtype=str, keep_default_na=False)
             if set(split.columns) != {"donor", "split"} or not set(split["split"]).issubset({"train", "val", "refit_only"}):
                 raise ValueError("splits TSV must have donor/split columns, with train, val or refit_only labels")
-            model = DLUnmix(FitConfig(candidate_epochs=tuple(args.candidate_epochs))).fit(
+            model = DLUnmix(FitConfig(candidate_epochs=tuple(args.candidate_epochs)), device=args.device).fit(
                 read_matrix(args.reference_bulk), read_matrix(args.reference_fractions), read_matrix(args.reference_cts, cts=True),
                 train_donors=split.loc[split.split == "train", "donor"].tolist(),
                 validation_donors=split.loc[split.split == "val", "donor"].tolist(),
@@ -84,11 +86,12 @@ def main(argv=None):
             model.save(args.out)
             print(f"Saved model; selected {model.selected_epochs_} epochs")
         elif args.command == "predict":
-            model = DLUnmix.load(args.model)
+            model = DLUnmix.load(args.model, device=args.device)
             truth = read_matrix(args.truth_cts, cts=True) if args.truth_cts else None
             _predict_outputs(model, read_matrix(args.bulk), read_matrix(args.fractions), args.out, args.fraction_floor, truth)
             print("Saved predictions and selection mask")
         else:
+            model = DLUnmix(FitConfig(candidate_epochs=(1, 2)), device=args.device)
             out = Path(args.out)
             out.mkdir(parents=True, exist_ok=False)
             reference, target = make_synthetic()
@@ -98,9 +101,9 @@ def main(argv=None):
                 write_cts(truth, out / f"{label}_cts.tsv")
             donors = reference[0].index.tolist()
             pd.DataFrame({"donor": donors, "split": ["train"]*12 + ["val"]*4}).to_csv(out / "splits.tsv", sep="\t", index=False)
-            model = DLUnmix(FitConfig(candidate_epochs=(1, 2))).fit(*reference, train_donors=donors[:12], validation_donors=donors[12:])
+            model.fit(*reference, train_donors=donors[:12], validation_donors=donors[12:])
             model.save(out / "model")
-            _predict_outputs(DLUnmix.load(out / "model"), *target[:2], out / "prediction", 0.01, target[2])
+            _predict_outputs(DLUnmix.load(out / "model", device=args.device), *target[:2], out / "prediction", 0.01, target[2])
             print("Synthetic software demonstration complete (candidate epochs 1,2; not a scientific benchmark)")
     except (ValueError, TypeError, FileExistsError, FileNotFoundError) as e:
         parser.error(str(e))

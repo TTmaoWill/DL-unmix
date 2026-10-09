@@ -98,18 +98,36 @@ def _truth(cts, donors, genes, cell_types):
     return out
 
 
-def _network(n_ct, config, floor=1e-6):
+def _resolve_device(device):
+    """Accept explicit CPU/CUDA placement; never silently fall back."""
+    try:
+        selected = torch.device(device)
+    except (TypeError, RuntimeError, ValueError) as e:
+        raise ValueError("device must be cpu, cuda or cuda:N") from e
+    if selected.type not in {"cpu", "cuda"} or (selected.type == "cpu" and selected.index is not None):
+        raise ValueError("device must be cpu, cuda or cuda:N")
+    if selected.type == "cuda":
+        if not torch.cuda.is_available():
+            raise ValueError("CUDA requested but unavailable; use device='cpu' or a CUDA-enabled PyTorch installation and allocated GPU")
+        index = torch.cuda.current_device() if selected.index is None else selected.index
+        if index >= torch.cuda.device_count():
+            raise ValueError(f"CUDA device index {index} is unavailable")
+        selected = torch.device("cuda", index)
+    return selected
+
+
+def _network(n_ct, config, floor=1e-6, device="cpu"):
     return ref.EarlySplitResidualNet(
         donor_dim=3 + 2*n_ct, gene_dim=2*n_ct + 3, local_dim=4,
         output_dim=n_ct, dropout=config.dropout, ct_names=[str(i) for i in range(n_ct)],
         bulk_feature_mode="bulk_resid", fraction_feature_mode="log_only",
         fraction_input_scope="both", fraction_min_clip=floor,
-    )
+    ).to(device)
 
 
-def _bundle(bulk, fractions, truth, meta, scalers=None, fit=False, floor=1e-6):
+def _bundle(bulk, fractions, truth, meta, scalers=None, fit=False, floor=1e-6, device="cpu"):
     return ref.build_bundle(bulk, fractions, truth, meta, scalers, fit,
-                            torch.device("cpu"), bulk_feature_mode="bulk_resid", fraction_min_clip=floor)
+                            torch.device(device), bulk_feature_mode="bulk_resid", fraction_min_clip=floor)
 
 
 def _loader(bundle, config):
@@ -139,19 +157,20 @@ def _pcc_array(predicted, truth, genes, cell_types):
 
 
 class DLUnmix:
-    """CPU implementation of the adopted model with a portable fitted artifact.
+    """CPU/CUDA implementation of the adopted model with a portable fitted artifact.
 
     Fit splits must be supplied explicitly. Predict returns unfiltered expression
     on the processed scale with (gene, cell_type) MultiIndex columns.
     """
-    def __init__(self, config: FitConfig | None = None):
+    def __init__(self, config: FitConfig | None = None, *, device="cpu"):
         self.config = config or FitConfig()
+        self.device = _resolve_device(device)
 
     def fit(self, reference_bulk: pd.DataFrame, reference_fractions: pd.DataFrame,
             reference_cts: Mapping[str, pd.DataFrame], *, train_donors: Sequence[str],
-            validation_donors: Sequence[str], refit_only_donors: Sequence[str] = ()):
+            validation_donors: Sequence[str], refit_only_donors: Sequence[str] = (), device=None):
         """Fit atomically, retaining any existing fitted model if fitting fails."""
-        candidate = type(self)(self.config)
+        candidate = type(self)(self.config, device=self.device if device is None else device)
         candidate._fit(reference_bulk, reference_fractions, reference_cts,
                        train_donors=train_donors, validation_donors=validation_donors,
                        refit_only_donors=refit_only_donors)
@@ -180,12 +199,12 @@ class DLUnmix:
         cfg = self.config
         ref.set_determinism(cfg.seed)
         meta = ref.build_gene_meta(truth.loc[train], genes, cell_types)
-        train_bundle, scalers = _bundle(bulk.loc[train], fractions.loc[train], truth.loc[train], meta, fit=True)
-        val_bundle, _ = _bundle(bulk.loc[validation], fractions.loc[validation], truth.loc[validation], meta, scalers)
-        model = _network(len(cell_types), cfg)
+        train_bundle, scalers = _bundle(bulk.loc[train], fractions.loc[train], truth.loc[train], meta, fit=True, device=self.device)
+        val_bundle, _ = _bundle(bulk.loc[validation], fractions.loc[validation], truth.loc[validation], meta, scalers, device=self.device)
+        model = _network(len(cell_types), cfg, device=self.device)
         optimizer = torch.optim.AdamW(model.parameters(), lr=cfg.learning_rate, weight_decay=cfg.weight_decay)
         loader = _loader(train_bundle, cfg)
-        pairs = ref.build_pair_indices(len(cell_types))
+        pairs = tuple(index.to(self.device) for index in ref.build_pair_indices(len(cell_types)))
         best_score = -np.inf
         best_predictions = None
         history = []
@@ -207,8 +226,10 @@ class DLUnmix:
         # A fresh seeded model, optimizer, anchors and scalers on all reference donors.
         ref.set_determinism(cfg.seed)
         self.gene_meta_ = ref.build_gene_meta(truth, genes, cell_types)
-        full, self.scalers_ = _bundle(bulk, fractions, truth, self.gene_meta_, fit=True)
-        self.model_ = _network(len(cell_types), cfg)
+        # Release selection-stage tensors before materializing the full refit.
+        del train_bundle, val_bundle, loader, optimizer, model
+        full, self.scalers_ = _bundle(bulk, fractions, truth, self.gene_meta_, fit=True, device=self.device)
+        self.model_ = _network(len(cell_types), cfg, device=self.device)
         optimizer = torch.optim.AdamW(self.model_.parameters(), lr=cfg.learning_rate, weight_decay=cfg.weight_decay)
         loader = _loader(full, cfg)
         for _ in range(self.selected_epochs_):
@@ -221,14 +242,16 @@ class DLUnmix:
         if not hasattr(self, "genes_"):
             raise ValueError("fit or load a model before prediction or saving")
 
-    def predict(self, bulk: pd.DataFrame, fractions: pd.DataFrame, *, fraction_floor: float = 0.01):
+    def predict(self, bulk: pd.DataFrame, fractions: pd.DataFrame, *, fraction_floor: float = 0.01, device=None):
         """Predict processed CTS expression; no target truth or refitting is used.
 
         The default 0.01 is the adopted accuracy/deployment floor. Use 1e-6
         explicitly for the original-input setting. Original fractions still
         enter the composition residual unchanged. All fitted genes are required.
+        A device override moves this instance and remains active for later calls.
         """
         self._check_fitted()
+        selected_device = _resolve_device(self.device if device is None else device)
         if not np.isfinite(fraction_floor) or not 0 < fraction_floor <= 1:
             raise ValueError("fraction_floor must be finite and in (0,1]")
         bulk = _frame(bulk, "target bulk")
@@ -236,7 +259,9 @@ class DLUnmix:
             raise ValueError("target genes must exactly match the fitted panel; subset explicitly before prediction")
         bulk = bulk.loc[:, self.genes_]
         fractions = _fractions(fractions, list(bulk.index), self.cell_types_)
-        bundle, _ = _bundle(bulk, fractions, None, self.gene_meta_, self.scalers_, floor=fraction_floor)
+        bundle, _ = _bundle(bulk, fractions, None, self.gene_meta_, self.scalers_, floor=fraction_floor, device=selected_device)
+        self.model_.to(selected_device)
+        self.device = selected_device
         # The reference forward path recomputes log fractions, so set both paths.
         previous_floor = self.model_.fraction_min_clip
         try:
@@ -272,8 +297,9 @@ class DLUnmix:
         (directory / "model.json").write_text(json.dumps(metadata, indent=2, allow_nan=False) + "\n")
 
     @classmethod
-    def load(cls, directory):
+    def load(cls, directory, *, device="cpu"):
         """Load a locally fitted artifact (JSON, non-pickled arrays, tensor weights)."""
+        selected_device = _resolve_device(device)
         directory = Path(directory)
         d = json.loads((directory / "model.json").read_text())
         if d.get("format_version") != 1 or d.get("variant") != "V0_no_expected_logfrac_only":
@@ -282,7 +308,7 @@ class DLUnmix:
             raise ValueError("unsupported model preprocessing")
         cfg = dict(d["config"])
         cfg["candidate_epochs"] = tuple(cfg["candidate_epochs"])
-        obj = cls(FitConfig(**cfg))
+        obj = cls(FitConfig(**cfg), device=selected_device)
         obj.genes_ = _labels(d["genes"], "model genes")
         obj.cell_types_ = _labels(d["cell_types"], "model cell types")
         if len(obj.cell_types_) < 2:
@@ -296,6 +322,7 @@ class DLUnmix:
             raise ValueError("model anchor shape does not match labels")
         obj.model_ = _network(len(obj.cell_types_), obj.config)
         obj.model_.load_state_dict(torch.load(directory / "weights.pt", map_location="cpu", weights_only=True), strict=True)
+        obj.model_.to(obj.device)
         obj.model_.eval()
         obj.selected_epochs_, obj.history_, obj.reference_counts_ = d["selected_epochs"], d["history"], d["reference_counts"]
         return obj

@@ -48,5 +48,22 @@ weights. They are versioned artifacts of this interface, not arbitrary legacy
 checkpoints. Load only artifacts from trusted sources: neither the version floor
 nor restricted deserialization makes arbitrary untrusted checkpoints safe.
 Concurrent mutation or
-prediction with different fraction floors on one model instance is unsupported;
+prediction with different fraction floors or devices on one model instance is unsupported;
 use separate loaded instances per concurrent worker.
+
+## Device verification coverage
+
+The device extension is checked on the CPU environment above, including default
+versus explicit CPU training, original-script parity, artifact roundtrips,
+CLI device selection and explicit rejection of unavailable CUDA. The test suite
+includes two conditional CUDA checks: fixed-weight CPU/CUDA inference plus
+portable loading, and tiny CUDA training with tensor/index placement assertions.
+These CUDA checks are skipped when CUDA is unavailable. No GPU execution or
+CPU/CUDA numerical equivalence has yet been verified for this extension.
+
+To run those conditional checks, use a CUDA-enabled PyTorch >=2.10.0,<3 build
+compatible with the allocated GPU and driver, then run the regular test suite
+inside that allocation. Cluster login nodes are not compute resources. CPU
+training and CUDA training can differ because of random-number streams and
+floating-point kernels, even with the same seed. GPU inference comparisons use
+rtol=1e-5 and atol=2e-5, not bitwise equality. No speedup claim is made.

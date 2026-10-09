@@ -140,9 +140,9 @@ class ReleaseTests(unittest.TestCase):
                 np.testing.assert_allclose(cts[ct], self.reference[2][ct])
             main(["fit", "--reference-bulk", str(demo / "reference_bulk.tsv"), "--reference-fractions", str(demo / "reference_fractions.tsv"),
                   "--reference-cts", str(demo / "reference_cts.tsv"), "--splits", str(demo / "splits.tsv"),
-                  "--candidate-epochs", "1", "2", "--out", str(d / "cli_model")])
+                  "--candidate-epochs", "1", "2", "--device", "cpu", "--out", str(d / "cli_model")])
             main(["predict", "--model", str(d / "cli_model"), "--bulk", str(demo / "target_bulk.tsv"),
-                  "--fractions", str(demo / "target_fractions.tsv"), "--out", str(d / "no_truth")])
+                  "--fractions", str(demo / "target_fractions.tsv"), "--device", "cpu", "--out", str(d / "no_truth")])
             self.assertFalse((d / "no_truth/evaluation.tsv").exists())
             self.assertEqual(json.loads((d / "no_truth/prediction.json").read_text())["fraction_floor"], 0.01)
             (d / "dup.tsv").write_text("donor\tg\tg\nx\t1\t2\n")
