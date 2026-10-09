@@ -28,3 +28,14 @@ data/results/
 
 # SLURM files
 slurm-*.out
+
+# Current-method release build/test artifacts
+.venv/
+.release-checks/
+build/
+dist/
+*.egg-info/
+*.pt
+*.npz
+demo-output/
+synthetic-output/
