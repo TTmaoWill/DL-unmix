@@ -32,7 +32,7 @@ this encoding deliberately when constructing your reference.
 The fitted gene panel is fixed. Target bulk must contain exactly those genes;
 explicitly subset extra genes before prediction. Missing genes cause an error.
 Targets must have the same cell types and donor labels must match fractions.
-This release requires at least two cell types because the objective includes
+DL-unmix requires at least two cell types because the objective includes
 cell-type contrasts. It does not choose a reference/target intersection using
 unavailable target CTS truth.
 
@@ -71,8 +71,7 @@ personB	val
 
 Supply at least two donors per training/validation group. Splits must be
 disjoint and cover all reference donors. `refit_only` explicitly identifies
-additional donors used only in the final full-reference fit, for designs such
-as the archived Yao reference. It does not mean held-out validation. The split
+additional donors used only in the final full-reference fit, and are excluded from held-out validation. The split
 file's donor order is retained within training/validation groups. Ensure that
 reference and target identities are distinct using the appropriate identity
 crosswalk; the software cannot infer that different IDs represent one person.
