@@ -20,6 +20,9 @@ def read_matrix(path, cts=False):
         if len(first) < 2 or (cts and len(second) != len(first)):
             raise ValueError("invalid TSV header")
         labels = list(zip(first[1:], second[1:])) if cts else first[1:]
+        components = first[1:] + (second[1:] if cts else [])
+        if any(not label.strip() for label in components):
+            raise ValueError("matrix column labels must be nonempty")
         if len(labels) != len(set(labels)):
             raise ValueError("duplicate matrix column labels")
     f = pd.read_csv(path, sep="\t", header=[0, 1] if cts else 0, dtype=str, keep_default_na=False)
@@ -29,6 +32,7 @@ def read_matrix(path, cts=False):
     if cts:
         f.columns = pd.MultiIndex.from_tuples(labels, names=["gene", "cell_type"])
         return {ct: f.xs(ct, axis=1, level=1).astype(float) for ct in dict.fromkeys(f.columns.get_level_values(1))}
+    f.columns = labels
     return f.astype(float)
 
 

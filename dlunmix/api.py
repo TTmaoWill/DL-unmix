@@ -150,6 +150,16 @@ class DLUnmix:
     def fit(self, reference_bulk: pd.DataFrame, reference_fractions: pd.DataFrame,
             reference_cts: Mapping[str, pd.DataFrame], *, train_donors: Sequence[str],
             validation_donors: Sequence[str], refit_only_donors: Sequence[str] = ()):
+        """Fit atomically, retaining any existing fitted model if fitting fails."""
+        candidate = type(self)(self.config)
+        candidate._fit(reference_bulk, reference_fractions, reference_cts,
+                       train_donors=train_donors, validation_donors=validation_donors,
+                       refit_only_donors=refit_only_donors)
+        self.__dict__ = candidate.__dict__.copy()
+        return self
+
+    def _fit(self, reference_bulk, reference_fractions, reference_cts, *,
+             train_donors, validation_donors, refit_only_donors):
         bulk = _frame(reference_bulk, "reference bulk")
         genes = sorted(bulk.columns)
         bulk = bulk.loc[:, genes]

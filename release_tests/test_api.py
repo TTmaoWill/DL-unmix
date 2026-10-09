@@ -2,12 +2,14 @@ import json
 from pathlib import Path
 import tempfile
 import unittest
+from unittest.mock import patch
 
 import numpy as np
 import pandas as pd
 import torch
 
 from dlunmix import DLUnmix, FitConfig, evaluate
+from dlunmix.api import _train_epoch
 from dlunmix.cli import main, read_matrix, write_cts
 from dlunmix.synthetic import make_synthetic
 
@@ -51,6 +53,39 @@ class ReleaseTests(unittest.TestCase):
             self.model.predict(bulk.iloc[:, :-1], frac)
         with self.assertRaisesRegex(ValueError, "donor"):
             self.model.predict(bulk, frac.iloc[:-1])
+
+    def test_failed_refit_preserves_fitted_state(self):
+        model = DLUnmix(self.config).fit(*self.reference, train_donors=self.donors[:12], validation_donors=self.donors[12:])
+        before = model.predict(*self.target[:2])
+        scores = model.validation_pcc_.copy()
+        calls = 0
+
+        def fail_during_full_refit(*args):
+            nonlocal calls
+            calls += 1
+            if calls == 3:
+                raise RuntimeError("injected full-refit failure")
+            return _train_epoch(*args)
+
+        with patch("dlunmix.api._train_epoch", side_effect=fail_during_full_refit):
+            with self.assertRaisesRegex(RuntimeError, "full-refit failure"):
+                model.fit(*self.reference, train_donors=self.donors[:12], validation_donors=self.donors[12:])
+        self.assertEqual(calls, 3)
+        np.testing.assert_array_equal(before, model.predict(*self.target[:2]))
+        np.testing.assert_array_equal(scores, model.validation_pcc_)
+
+    def test_blank_tsv_headers_rejected(self):
+        cases = [(False, "donor\t\tg\nx\t1\t2\n"),
+                 (False, "donor\t \ng\t1\n"),
+                 (True, "gene\t\ncell_type\tct\nx\t1\n"),
+                 (True, "gene\tg\ncell_type\t \nx\t1\n")]
+        with tempfile.TemporaryDirectory() as d:
+            path = Path(d) / "invalid.tsv"
+            for cts, content in cases:
+                with self.subTest(cts=cts, content=content):
+                    path.write_text(content)
+                    with self.assertRaisesRegex(ValueError, "nonempty"):
+                        read_matrix(path, cts=cts)
 
     def test_invalid_inputs(self):
         bulk, frac = self.target[:2]
