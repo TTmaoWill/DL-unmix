@@ -43,3 +43,9 @@ test is explicitly skipped; ordinary users do not need that research snapshot.
 
 This is software equivalence checking, not a new benchmark or biological
 validation. Remaining scope differences are enumerated in `method.md`.
+
+The supported release verification environment is listed in `installation.md`.
+Earlier checks using PyTorch 2.5.1 were functional comparisons only; they are
+superseded for release acceptance by testing on the patched dependency floor.
+Passing equivalence tests is not evidence that loading untrusted artifacts is
+safe. See `dependency-security.md` for the loading requirements and advisory scope.

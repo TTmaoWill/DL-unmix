@@ -19,10 +19,12 @@ python -m pip install .
 dlunmix --help
 ```
 
-Core dependencies are NumPy, pandas and PyTorch. R, comparator methods, GPU
+Core dependencies are NumPy, pandas and PyTorch >=2.10.0,<3. R, comparator methods, GPU
 support and plotting libraries are not required. The public interface currently
 runs on CPU. `requirements.txt` delegates to the same package metadata.
-See [installation](docs/installation.md) for the tested environment and build checks.
+See [installation](docs/installation.md) for the tested environment and build checks,
+and [dependency security](docs/dependency-security.md) for the version floor and
+trusted-model requirements.
 
 ## Run the synthetic example
 

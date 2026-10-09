@@ -83,7 +83,9 @@ crosswalk; the software cannot infer that different IDs represent one person.
 counts and validation history. `features.npz` contains fitted anchors/scalers
 and validation PCCs; `weights.pt` contains CPU tensors. Raw donor matrices and
 donor IDs are not stored in the model directory. Loading uses non-pickled NumPy
-arrays and PyTorch's `weights_only=True`; use artifacts from trusted sources.
+arrays and PyTorch's `weights_only=True` under the required PyTorch >=2.10.0,<3.
+Use artifacts from trusted sources only; these restrictions are not a sandbox
+for arbitrary untrusted checkpoints. See [dependency security](dependency-security.md).
 
 `predictions.tsv` has the two-header CTS layout and contains all fitted
 profiles. `selected_profiles.tsv` is a separate gene × cell-type Boolean mask.

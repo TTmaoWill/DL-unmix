@@ -3,8 +3,21 @@
 Package installation reads only `pyproject.toml`. The existing R requirements,
 benchmark scripts and `src/` directory are legacy and are not package dependencies.
 Python >=3.10 is declared; the release verification environment uses Python
-3.11.14, NumPy 2.3.5, pandas 2.3.3 and PyTorch 2.5.1 (CPU). Other compatible
+3.11.14, NumPy 2.3.5, pandas 2.3.3 and PyTorch 2.10.0+cpu. Other compatible
 versions are not claimed to have been tested.
+
+PyTorch >=2.10.0,<3 is required. This floor includes fixes for two known
+`weights_only=True` loading vulnerabilities; see
+[dependency security](dependency-security.md). Earlier functional checks on
+PyTorch 2.5.1 do not establish release security and that version is unsupported.
+
+For a Linux CPU environment matching the verification configuration, install
+the official CPU wheel before the package:
+
+```bash
+python -m pip install torch==2.10.0 --index-url https://download.pytorch.org/whl/cpu
+python -m pip install .
+```
 
 ```bash
 python -m pip install .
@@ -32,6 +45,8 @@ present. The short synthetic example requires no external dataset downloads.
 
 Saved models contain a JSON configuration, non-pickled NumPy arrays and tensor
 weights. They are versioned artifacts of this interface, not arbitrary legacy
-checkpoints. Load only artifacts from trusted sources. Concurrent mutation or
+checkpoints. Load only artifacts from trusted sources: neither the version floor
+nor restricted deserialization makes arbitrary untrusted checkpoints safe.
+Concurrent mutation or
 prediction with different fraction floors on one model instance is unsupported;
 use separate loaded instances per concurrent worker.
